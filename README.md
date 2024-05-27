@@ -1,0 +1,1 @@
+Symulacja placu grunwaldzkiego
