@@ -33,9 +33,10 @@ public class Controller implements Initializable {
 
     public void start(ActionEvent e){
         System.out.println("PRESS");
-        List<Transport> currentObjects = objectCreate(car_count, bus_count, tram_count);
+        List<Transport> currentObjects = trafficManager.transportCreate(car_count, bus_count, tram_count);
+        List<Signal> currentSignals = trafficManager.signalsCreate();
 
-        print(currentObjects);
+        print(currentObjects, currentSignals);
     }
 
 
@@ -81,53 +82,19 @@ public class Controller implements Initializable {
     }
 
     //Logika
-    public List<Transport> objectCreate(int amountCar, int amountBus, int amountTram)
-    {
-        int id = 0;
-        List<Transport> vehicles = new ArrayList<>();
-        for(int i = 0; i < amountCar; i++) {
-            Car car= new Car(0, 0, id, "Transport", randomExit(), randomEnter(), "Car", 50, 200, 5, 50, 5, randomColor());
-            id++;
-            vehicles.add(car);
-        }
-        for(int i = 0; i < amountBus; i++) {
-            Bus bus= new Bus(0, 0, id, "Transport", randomExit(), randomEnter(), "Bus", 50, 200, 5, 50, 5, randomColor());
-            id++;
-            vehicles.add(bus);
-        }
-        for(int i = 0; i < amountTram; i++) {
-
-            //Point start =
-            Tram tram= new Tram(0, 0, id, "Transport", randomExit(), randomEnter(), "Tram", 50, 200, 5, 50, 5, randomColor());
-            id++;
-            vehicles.add(tram);
-        }
-        return vehicles;
-    }
-
-    public void print(List<Transport> list) {
-        for(Transport i : list){
+    public void print(List<Transport> listTransport, List<Signal> listSignals) {
+        System.out.println("Transport:");
+        for(Transport i : listTransport){
             System.out.println(i.id + " " + i.type + " " + i.enter + " " + i.exit + " " + i.vehicle);
         }
+        System.out.println("Signals:");
+        for(Signal i : listSignals){
+            System.out.println(i.x + " " + i.y + " "  + i.id + " " + i.type);
+        }
+
     }
 
-    public String randomEnter() {
-        String[] entries = new String[]{"A", "C", "E", "G", "I"};
-        int randomIndex = random.nextInt(entries.length);
-        return entries[randomIndex];
-    }
 
-    public String randomExit() {
-        String[] exits = new String[]{"B", "D", "F", "H", "J"};
-        int randomIndex = random.nextInt(exits.length);
-        return exits[randomIndex];
-    }
-
-    public String randomColor() {
-        String[] colors = new String[]{"Red", "Blue", "Green"};
-        int randomIndex = random.nextInt(colors.length);
-        return colors[randomIndex];
-    }
 
 
 
