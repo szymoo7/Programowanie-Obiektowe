@@ -21,7 +21,7 @@
             <Point3D />
          </rotationAxis>
       </ImageView>
-      <Slider fx:id="slider_car" blockIncrement="1.0" layoutX="946.0" layoutY="175.0" majorTickUnit="1.0" max="10.0" minorTickCount="0" prefHeight="30.0" prefWidth="200.0" showTickLabels="true" showTickMarks="true" value="1.0" />
+      <Slider fx:id="slider_car" blockIncrement="1.0" layoutX="946.0" layoutY="175.0" majorTickUnit="1.0" max="10.0" minorTickCount="0" prefHeight="30.0" prefWidth="200.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="1.0" />
       <Button layoutX="234.0" layoutY="622.0" mnemonicParsing="false" onAction="#start" prefHeight="30.0" prefWidth="200.0" text="Start" textAlignment="CENTER">
          <font>
             <Font name="Dubai Light" size="12.0" />
@@ -49,7 +49,7 @@
       <Label layoutX="954.0" layoutY="140.0" prefHeight="18.0" prefWidth="200.0" text="Ilość samochodów:" textAlignment="CENTER" textFill="WHITE" />
       <Slider fx:id="slider_bus" blockIncrement="1.0" layoutX="946.0" layoutY="458.0" majorTickUnit="1.0" max="3.0" minorTickCount="0" prefHeight="30.0" prefWidth="200.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="1.0" />
       <Label layoutX="943.0" layoutY="422.0" prefHeight="18.0" prefWidth="200.0" text="Ilość autobusów:" textAlignment="CENTER" textFill="WHITE" />
-      <Slider fx:id="slider_tram" blockIncrement="1.0" layoutX="946.0" layoutY="312.0" majorTickUnit="1.0" max="2.0" minorTickCount="0" prefHeight="30.0" prefWidth="200.0" showTickLabels="true" showTickMarks="true" value="1.0" />
+      <Slider fx:id="slider_tram" blockIncrement="1.0" layoutX="946.0" layoutY="312.0" majorTickUnit="1.0" max="2.0" minorTickCount="0" prefHeight="30.0" prefWidth="200.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="1.0" />
       <Label layoutX="954.0" layoutY="278.0" prefHeight="18.0" prefWidth="200.0" text="Ilość tramwajów:" textFill="WHITE" />
       <Label fx:id="tram_amount" layoutX="1084.0" layoutY="278.0" prefHeight="18.0" prefWidth="58.0" textFill="WHITE" />
       <Label fx:id="car_amount" layoutX="1084.0" layoutY="140.0" prefHeight="18.0" prefWidth="58.0" textFill="WHITE" />
