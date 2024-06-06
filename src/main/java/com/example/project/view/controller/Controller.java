@@ -22,6 +22,7 @@ public class Controller implements Initializable {
 
     private final TrafficManager trafficManager = new TrafficManager();
 
+
     //Zmienne
     @FXML
     private Label tram_amount, bus_amount, car_amount;
@@ -35,8 +36,11 @@ public class Controller implements Initializable {
         System.out.println("PRESS");
         List<Transport> currentObjects = trafficManager.transportCreate(car_count, bus_count, tram_count);
         List<Signal> currentSignals = trafficManager.signalsCreate();
+        List<Point> carEntries = trafficManager.getCarEntries();
+        List<Point> carExits = trafficManager.getCarExits();
 
-        print(currentObjects, currentSignals);
+        print(currentObjects, currentSignals, carEntries, carExits);
+
     }
 
 
@@ -82,7 +86,7 @@ public class Controller implements Initializable {
     }
 
     //Logika
-    public void print(List<Transport> listTransport, List<Signal> listSignals) {
+    public void print(List<Transport> listTransport, List<Signal> listSignals, List<Point> listCarEntries, List<Point> listCarExits) {
         System.out.println("Transport:");
         for(Transport i : listTransport){
             System.out.println(i.id + " " + i.type + " " + i.enter + " " + i.exit + " " + i.vehicle);
@@ -90,6 +94,14 @@ public class Controller implements Initializable {
         System.out.println("Signals:");
         for(Signal i : listSignals){
             System.out.println(i.x + " " + i.y + " "  + i.id + " " + i.type);
+        }
+        System.out.println("Car Entries:");
+        for(Point i : listCarEntries){
+            System.out.println(i.x + " " + i.y + " "  + i.getName() + " " + i.getConnections());
+        }
+        System.out.println("Car Exits:");
+        for(Point i : listCarExits){
+            System.out.println(i.x + " " + i.y + " "  + i.getName() + " " + i.getConnections());
         }
 
     }

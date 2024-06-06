@@ -2,10 +2,10 @@ package com.example.project.model;
 
 public class Point extends Object
 {
-    private String connections;
-    private String name;
+    private String connections = "";
+    private String name = "";
 
-    public Point(float x, float y, int id, String type, String connections, String name) {
+    public Point(float x, float y, int id, String type, String name) {
         super(x, y, id, type);
         this.connections = connections;
         this.name = name;

@@ -3,6 +3,7 @@ package com.example.project.service;
 import com.example.project.model.*;
 
 import java.util.ArrayList;
+import java.util.Dictionary;
 import java.util.List;
 import java.util.Random;
 
@@ -13,63 +14,50 @@ public class TrafficManager {
 
     private int id = 0;
 
-    private List<String> carEntries = new ArrayList<>();
-    private List<String> busEntries = new ArrayList<>();
-    private List<String> tramEntries = new ArrayList<>();
+    private List<Point> carEntries = new ArrayList<>();
+    private List<Point> busEntries = new ArrayList<>();
+    private List<Point> tramEntries = new ArrayList<>();
 
-    private List<String> carExits = new ArrayList<>();
-    private List<String> busExits = new ArrayList<>();
-    private List<String> tramExits = new ArrayList<>();
+    private List<Point> carExits = new ArrayList<>();
+    private List<Point> busExits = new ArrayList<>();
+    private List<Point> tramExits = new ArrayList<>();
 
     private List<Signal> signals = new ArrayList<>();
 
+    public Random getRandom() {
+        return random;
+    }
 
-    public List<String> getCarEntries() {
+    public int getId() {
+        return id;
+    }
+
+    public List<Point> getCarEntries() {
         return carEntries;
     }
 
-    public void setCarEntries(List<String> carEntries) {
-        this.carEntries = carEntries;
-    }
-
-    public List<String> getBusEntries() {
+    public List<Point> getBusEntries() {
         return busEntries;
     }
 
-    public void setBusEntries(List<String> busEntries) {
-        this.busEntries = busEntries;
-    }
-
-    public List<String> getTramEntries() {
+    public List<Point> getTramEntries() {
         return tramEntries;
     }
 
-    public void setTramEntries(List<String> tramEntries) {
-        this.tramEntries = tramEntries;
-    }
-
-    public List<String> getCarExits() {
+    public List<Point> getCarExits() {
         return carExits;
     }
 
-    public void setCarExits(List<String> carExits) {
-        this.carExits = carExits;
-    }
-
-    public List<String> getBusExits() {
+    public List<Point> getBusExits() {
         return busExits;
     }
 
-    public void setBusExits(List<String> busExits) {
-        this.busExits = busExits;
-    }
-
-    public List<String> getTramExits() {
+    public List<Point> getTramExits() {
         return tramExits;
     }
 
-    public void setTramExits(List<String> tramExits) {
-        this.tramExits = tramExits;
+    public List<Signal> getSignals() {
+        return signals;
     }
 
     public List<Transport> transportCreate(int amountCar, int amountBus, int amountTram)
@@ -79,6 +67,8 @@ public class TrafficManager {
             Car car= new Car(0, 0, id, "Transport", randomExit(), randomEnter(), "Car", 50, 200, 5, 50, 5, randomColor());
             id++;
             vehicles.add(car);
+            carEntriesCreate();
+            carExitsCreate();
         }
         for(int i = 0; i < amountBus; i++) {
             Bus bus= new Bus(0, 0, id, "Transport", randomExit(), randomEnter(), "Bus", 50, 200, 5, 50, 5, randomColor());
@@ -124,4 +114,41 @@ public class TrafficManager {
         int randomIndex = random.nextInt(colors.length);
         return colors[randomIndex];
     }
+
+    public void carEntriesCreate() {
+        int[] coordsx = {695, 648, 502, 189, 302, 811, 815, 504, 43, 43};
+        int[] coordsy = {325, 159, 145, 340, 482, 540, 118, 63, 236, 543};
+        String[] names = {"A", "B", "C", "D", "E", "A'", "B'", "C'", "D'", "E'"};
+        for(int i = 0; i < 10; i++) {
+            Point point = new Point(coordsx[i], coordsy[i], id, "Point", names[i]);
+            if (i == 0) {
+                point.setConnections(names[i + 1]);
+            } else if (i == 9) {
+                point.setConnections(names[i - 1]);
+            }
+            else {
+                point.setConnections(names[i - 1] + names[i + 1]);
+            }
+            carEntries.add(point);
+        }
+    }
+
+    public void carExitsCreate() {
+        int[] coordsx = {504, 703, 608, 239, 189, 663, 822, 572, 36, 33};
+        int[] coordsy = {446, 286, 138, 281, 384, 549, 205, 57, 184, 471};
+        String[] names = {"a", "b", "c", "d", "e", "a'", "b'", "c'", "d'", "e'"};
+        for(int i = 0; i < 10; i++) {
+            Point point = new Point(coordsx[i], coordsy[i], id, "Point", names[i]);
+            if (i == 0) {
+                point.setConnections(names[i + 1]);
+            }else if (i == 9) {
+                point.setConnections(names[i - 1]);
+            }
+            else {
+                point.setConnections(names[i - 1] + names[i + 1]);
+            }
+            carExits.add(point);
+        }
+    }
+
 }
