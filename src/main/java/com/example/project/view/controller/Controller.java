@@ -2,6 +2,9 @@ package com.example.project.view.controller;
 
 import com.example.project.model.*;
 import com.example.project.service.TrafficManager;
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -9,14 +12,21 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
+import javafx.stage.*;
+import javafx.util.Duration;
 
+import java.io.FileInputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.ResourceBundle;
 
-public class Controller implements Initializable {
+public class Controller implements Initializable{
 
     private final Random random = new Random();
 
@@ -25,28 +35,45 @@ public class Controller implements Initializable {
 
     //Zmienne
     @FXML
+    private ImageView a, b, c, d, e, f, g, h;
+    @FXML
     private Label tram_amount, bus_amount, car_amount;
-
+    @FXML
+    private AnchorPane mainAnchorPane;
     @FXML
     private Slider slider_tram, slider_car, slider_bus;
 
-    int tram_count, bus_count, car_count;
 
-    public void start(ActionEvent e){
-        System.out.println("PRESS");
+    int tram_count, bus_count, car_count;
+    List<Signal> currentSignals = new ArrayList<>();
+    Timeline signalsTimeline;
+    boolean playing = false;
+
+    public void start(){
+        if (playing) {
+            System.out.println("PLAYING");
+            stop();
+        }
+        System.out.println("START");
         List<Transport> currentObjects = trafficManager.transportCreate(car_count, bus_count, tram_count);
-        List<Signal> currentSignals = trafficManager.signalsCreate();
         List<Point> carEntries = trafficManager.getCarEntries();
         List<Point> carExits = trafficManager.getCarExits();
-
         print(currentObjects, currentSignals, carEntries, carExits);
-
+        signalsTimeline = runAnimation(currentSignals);
+        playing = true;
     }
 
+    public void stop(){
+        System.out.println("STOP");
+        signalsTimeline.stop();
+        playing = false;
+    }
 
     //Funkcje GUI
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        currentSignals = trafficManager.signalsCreate();
+        anchorChildrenAdd(currentSignals);
 
         tram_count = (int) slider_tram.getValue();
         bus_count = (int) slider_bus.getValue();
@@ -83,6 +110,7 @@ public class Controller implements Initializable {
                 bus_amount.setText(Integer.toString(bus_count));
             }
         });
+
     }
 
     //Logika
@@ -106,6 +134,32 @@ public class Controller implements Initializable {
 
     }
 
+    public void anchorChildrenAdd(List<Signal> stoplight) {
+        for(Signal i : stoplight) {
+            mainAnchorPane.getChildren().add(i.getImageView());
+            System.out.println("dupa");
+        }
+    }
+
+    public void changeLights(List<Signal> signals) {
+        for(Signal i : signals) {
+            i.ChangeColor();
+        }
+    }
+
+    public Timeline runAnimation(List<Signal> signals) {
+        Timeline timeline = new Timeline();
+        timeline.setCycleCount(Animation.INDEFINITE);
+        KeyFrame change = new KeyFrame(
+                Duration.seconds(0.5),
+                event -> {
+                    changeLights(signals);
+                }
+        );
+        timeline.getKeyFrames().addAll(change);
+        timeline.play();
+        return timeline;
+    }
 
 
 

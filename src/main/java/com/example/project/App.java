@@ -19,7 +19,6 @@ public class App extends Application {
         stage.setResizable(false);
         stage.getIcons().add(new Image(getClass().getResourceAsStream("/Pictures/grunwald-logo.png")));
         stage.setTitle("Grunwald Simulator");
-
         stage.setScene(scene);
         stage.show();
     }

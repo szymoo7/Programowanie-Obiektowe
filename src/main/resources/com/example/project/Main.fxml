@@ -1,17 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Point3D?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Slider?>
-<?import javafx.scene.effect.DropShadow?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.paint.Color?>
-<?import javafx.scene.text.Font?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane style="-fx-background-color: #2D2D2A;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.project.view.controller.Controller">
+<AnchorPane fx:id="mainAnchorPane" style="-fx-background-color: #2D2D2A;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.project.view.controller.Controller">
    <children>
       <ImageView fitHeight="500" fitWidth="800" layoutX="31.0" layoutY="56.0" pickOnBounds="true" preserveRatio="true">
          <image>
@@ -34,7 +31,7 @@
             </DropShadow>
          </effect>
       </Button>
-      <Button layoutX="500.0" layoutY="622.0" mnemonicParsing="false" onAction="#start" prefHeight="30.0" prefWidth="200.0" text="Stop" textAlignment="CENTER">
+      <Button layoutX="500.0" layoutY="622.0" mnemonicParsing="false" onAction="#stop" prefHeight="30.0" prefWidth="200.0" text="Stop" textAlignment="CENTER">
          <font>
             <Font name="Dubai Light" size="12.0" />
          </font>
@@ -54,45 +51,5 @@
       <Label fx:id="tram_amount" layoutX="1084.0" layoutY="278.0" prefHeight="18.0" prefWidth="58.0" textFill="WHITE" />
       <Label fx:id="car_amount" layoutX="1084.0" layoutY="140.0" prefHeight="18.0" prefWidth="58.0" textFill="WHITE" />
       <Label fx:id="bus_amount" layoutX="1084.0" layoutY="422.0" prefHeight="18.0" prefWidth="58.0" textFill="WHITE" />
-      <ImageView fitHeight="51.0" fitWidth="22.0" layoutX="712.0" layoutY="291.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../../Pictures/stoplight.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="51.0" fitWidth="22.0" layoutX="577.0" layoutY="350.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../../Pictures/stoplight.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="51.0" fitWidth="22.0" layoutX="629.0" layoutY="98.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../../Pictures/stoplight.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="51.0" fitWidth="22.0" layoutX="469.0" layoutY="107.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../../Pictures/stoplight.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="51.0" fitWidth="22.0" layoutX="273.0" layoutY="213.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../../Pictures/stoplight.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="51.0" fitWidth="22.0" layoutX="154.0" layoutY="311.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../../Pictures/stoplight.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="51.0" fitWidth="22.0" layoutX="323.0" layoutY="465.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../../Pictures/stoplight.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="51.0" fitWidth="22.0" layoutX="533.0" layoutY="456.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../../Pictures/stoplight.png" />
-         </image>
-      </ImageView>
    </children>
 </AnchorPane>

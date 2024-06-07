@@ -1,6 +1,12 @@
 package com.example.project.service;
 
 import com.example.project.model.*;
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.util.Duration;
 
 import java.util.ArrayList;
 import java.util.Dictionary;
@@ -91,6 +97,7 @@ public class TrafficManager {
         int[] coordsy = {291, 98, 107, 213, 311, 465, 456, 350};
         for(int i = 0; i < 8; i++) {
             Signal signal = new Signal(coordsx[i], coordsy[i], id, "Signal");
+            signal.setColor(true);
             signals.add(signal);
             id++;
         }
@@ -150,5 +157,6 @@ public class TrafficManager {
             carExits.add(point);
         }
     }
+
 
 }
