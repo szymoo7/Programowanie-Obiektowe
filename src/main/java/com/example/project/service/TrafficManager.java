@@ -7,12 +7,7 @@ import javafx.animation.Timeline;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.util.Duration;
-
-import java.util.ArrayList;
-import java.util.Dictionary;
-import java.util.List;
-import java.util.Random;
-
+import java.util.*;
 
 public class TrafficManager {
 
@@ -29,6 +24,56 @@ public class TrafficManager {
     private List<Point> tramExits = new ArrayList<>();
 
     private List<Signal> signals = new ArrayList<>();
+
+    private Set<Signal> lightOptionOne = new HashSet<Signal>();
+
+    private Set<Signal> lightOptionTwo = new HashSet<Signal>();
+
+    private Set<Signal> lightOptionThree = new HashSet<Signal>();
+
+    private Set<Signal> lightOptionFour = new HashSet<Signal>();
+
+    private Set<Signal> lightOptionFive = new HashSet<Signal>();
+
+    public Set<Signal> getLightOptionOne() {
+        return lightOptionOne;
+    }
+
+    public void setLightOptionOne(Set<Signal> lightOptionOne) {
+        this.lightOptionOne = lightOptionOne;
+    }
+
+    public Set<Signal> getLightOptionTwo() {
+        return lightOptionTwo;
+    }
+
+    public void setLightOptionTwo(Set<Signal> lightOptionTwo) {
+        this.lightOptionTwo = lightOptionTwo;
+    }
+
+    public Set<Signal> getLightOptionThree() {
+        return lightOptionThree;
+    }
+
+    public void setLightOptionThree(Set<Signal> lightOptionThree) {
+        this.lightOptionThree = lightOptionThree;
+    }
+
+    public Set<Signal> getLightOptionFour() {
+        return lightOptionFour;
+    }
+
+    public void setLightOptionFour(Set<Signal> lightOptionFour) {
+        this.lightOptionFour = lightOptionFour;
+    }
+
+    public Set<Signal> getLightOptionFive() {
+        return lightOptionFive;
+    }
+
+    public void setLightOptionFive(Set<Signal> lightOptionFive) {
+        this.lightOptionFive = lightOptionFive;
+    }
 
     public Random getRandom() {
         return random;
@@ -68,6 +113,7 @@ public class TrafficManager {
 
     public List<Transport> transportCreate(int amountCar, int amountBus, int amountTram)
     {
+        id = 0;
         List<Transport> vehicles = new ArrayList<>();
         for(int i = 0; i < amountCar; i++) {
             Car car= new Car(0, 0, id, "Transport", randomExit(), randomEnter(), "Car", 50, 200, 5, 50, 5, randomColor());
@@ -82,8 +128,6 @@ public class TrafficManager {
             vehicles.add(bus);
         }
         for(int i = 0; i < amountTram; i++) {
-
-            //Point start =
             Tram tram= new Tram(0, 0, id, "Transport", randomExit(), randomEnter(), "Tram", 50, 200, 5, 50, 5, randomColor());
             id++;
             vehicles.add(tram);
@@ -95,17 +139,34 @@ public class TrafficManager {
         List<Signal> signals = new ArrayList<>();
         int[] coordsx = {712, 629, 469, 273, 154, 323, 533, 577};
         int[] coordsy = {291, 98, 107, 213, 311, 465, 456, 350};
+        int[] ids = {65, 66, 67, 68, 69, 70, 71, 72};
+                    //A,   B,  C,  D,  E,  F,  G,  H
         for(int i = 0; i < 8; i++) {
-            Signal signal = new Signal(coordsx[i], coordsy[i], id, "Signal");
-            signal.setColor(true);
+            Signal signal = new Signal(coordsx[i], coordsy[i], ids[i], "Signal");
+            signal.setColor(false);
             signals.add(signal);
-            id++;
+            char idChar = (char) ids[i];
+            if (Arrays.asList('A', 'C', 'D', 'F', 'G').contains(idChar)) {
+                lightOptionOne.add(signal);
+            }
+            if (Arrays.asList('A', 'C', 'E', 'F', 'G').contains(idChar)) {
+                lightOptionTwo.add(signal);
+            }
+            if (Arrays.asList('B', 'D', 'F', 'G', 'H').contains(idChar)) {
+                lightOptionThree.add(signal);
+            }
+            if (Arrays.asList('B', 'E', 'G', 'H').contains(idChar)) {
+                lightOptionFour.add(signal);
+            }
+            if (Arrays.asList('C', 'E', 'F', 'H').contains(idChar)) {
+                lightOptionFive.add(signal);
+            }
         }
         return signals;
     }
 
     public String randomEnter() {
-        String[] entries = new String[]{"A", "C", "E", "G", "I"};
+        String[] entries = new String[]{"A", "B", "C", "D", "E"};
         int randomIndex = random.nextInt(entries.length);
         return entries[randomIndex];
     }
@@ -117,6 +178,13 @@ public class TrafficManager {
     }
 
     public String randomColor() {
+        String[] colors = new String[]{"Red", "Blue", "Green"};
+        int randomIndex = random.nextInt(colors.length);
+        return colors[randomIndex];
+    }
+
+    //random speed
+    public String randomSpeed() {
         String[] colors = new String[]{"Red", "Blue", "Green"};
         int randomIndex = random.nextInt(colors.length);
         return colors[randomIndex];

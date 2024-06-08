@@ -21,19 +21,17 @@ import javafx.util.Duration;
 
 import java.io.FileInputStream;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class Controller implements Initializable{
 
+    // Obiekty/Klasy pomocnicze
     private final Random random = new Random();
 
     private final TrafficManager trafficManager = new TrafficManager();
 
 
-    //Zmienne
+    // Zmienne
     @FXML
     private ImageView a, b, c, d, e, f, g, h;
     @FXML
@@ -53,23 +51,30 @@ public class Controller implements Initializable{
         if (playing) {
             System.out.println("PLAYING");
             stop();
+
+        } else {
+            System.out.println("START");
+            List<Transport> currentObjects = trafficManager.transportCreate(car_count, bus_count, tram_count);
+            List<Point> carEntries = trafficManager.getCarEntries();
+            List<Point> carExits = trafficManager.getCarExits();
+            print(currentObjects, currentSignals, carEntries, carExits);
+            signalsTimeline = runAnimation(currentSignals);
+            playing = true;
         }
-        System.out.println("START");
-        List<Transport> currentObjects = trafficManager.transportCreate(car_count, bus_count, tram_count);
-        List<Point> carEntries = trafficManager.getCarEntries();
-        List<Point> carExits = trafficManager.getCarExits();
-        print(currentObjects, currentSignals, carEntries, carExits);
-        signalsTimeline = runAnimation(currentSignals);
-        playing = true;
     }
 
     public void stop(){
         System.out.println("STOP");
         signalsTimeline.stop();
         playing = false;
+        resetLight(trafficManager.getLightOptionOne());
+        resetLight(trafficManager.getLightOptionTwo());
+        resetLight(trafficManager.getLightOptionThree());
+        resetLight(trafficManager.getLightOptionFour());
+        resetLight(trafficManager.getLightOptionFive());
     }
 
-    //Funkcje GUI
+    // Funkcje GUI
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         currentSignals = trafficManager.signalsCreate();
@@ -113,16 +118,20 @@ public class Controller implements Initializable{
 
     }
 
-    //Logika
+    // Logika
     public void print(List<Transport> listTransport, List<Signal> listSignals, List<Point> listCarEntries, List<Point> listCarExits) {
-        System.out.println("Transport:");
+        /*System.out.println("Transport:");
         for(Transport i : listTransport){
             System.out.println(i.id + " " + i.type + " " + i.enter + " " + i.exit + " " + i.vehicle);
-        }
+        }*/
         System.out.println("Signals:");
-        for(Signal i : listSignals){
+        for(Signal i : trafficManager.getLightOptionOne()){
             System.out.println(i.x + " " + i.y + " "  + i.id + " " + i.type);
         }
+        System.out.println("BREAK");
+        for(Signal i : listSignals){
+            System.out.println(i.x + " " + i.y + " "  + i.id + " " + i.type);
+        } /*
         System.out.println("Car Entries:");
         for(Point i : listCarEntries){
             System.out.println(i.x + " " + i.y + " "  + i.getName() + " " + i.getConnections());
@@ -130,33 +139,69 @@ public class Controller implements Initializable{
         System.out.println("Car Exits:");
         for(Point i : listCarExits){
             System.out.println(i.x + " " + i.y + " "  + i.getName() + " " + i.getConnections());
-        }
+        }*/
 
     }
 
     public void anchorChildrenAdd(List<Signal> stoplight) {
         for(Signal i : stoplight) {
             mainAnchorPane.getChildren().add(i.getImageView());
-            System.out.println("dupa");
         }
     }
 
-    public void changeLights(List<Signal> signals) {
+    public void changeLights(Set<Signal> signals) {
         for(Signal i : signals) {
             i.ChangeColor();
+        }
+    }
+
+    public void resetLight(Set<Signal> signals) {
+        for(Signal i : signals) {
+            i.setColor(false);
         }
     }
 
     public Timeline runAnimation(List<Signal> signals) {
         Timeline timeline = new Timeline();
         timeline.setCycleCount(Animation.INDEFINITE);
-        KeyFrame change = new KeyFrame(
-                Duration.seconds(0.5),
+        KeyFrame lights1 = new KeyFrame(
+                Duration.seconds(10),
                 event -> {
-                    changeLights(signals);
+                    resetLight(trafficManager.getLightOptionFive());
+                    changeLights(trafficManager.getLightOptionOne());
                 }
         );
-        timeline.getKeyFrames().addAll(change);
+        KeyFrame lights2 = new KeyFrame(
+                Duration.seconds(20),
+                event -> {
+                    resetLight(trafficManager.getLightOptionOne());
+                    changeLights(trafficManager.getLightOptionTwo());
+                }
+        );
+        KeyFrame lights3 = new KeyFrame(
+                Duration.seconds(30),
+                event -> {
+                    resetLight(trafficManager.getLightOptionTwo());
+                    changeLights(trafficManager.getLightOptionThree());
+                }
+        );
+        KeyFrame lights4 = new KeyFrame(
+                Duration.seconds(40),
+                event -> {
+                    resetLight(trafficManager.getLightOptionThree());
+                    changeLights(trafficManager.getLightOptionFour());
+                }
+        );
+        KeyFrame lights5 = new KeyFrame(
+                Duration.seconds(50),
+                event -> {
+                    resetLight(trafficManager.getLightOptionFour());
+                    changeLights(trafficManager.getLightOptionFive());
+                    System.out.println("TURA");
+                }
+        );
+        timeline.getKeyFrames().addAll(lights1, lights2, lights3, lights4, lights5);
+        //timeline.getKeyFrames().addAll(lights1, lights2);
         timeline.play();
         return timeline;
     }
