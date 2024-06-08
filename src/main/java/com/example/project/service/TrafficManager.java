@@ -240,7 +240,7 @@ public class TrafficManager {
     }
 
     public String randomExit() {
-        String[] exits = new String[]{"B", "D", "F", "H", "J"};
+        String[] exits = new String[]{"a", "b", "c", "d", "e"};
         int randomIndex = random.nextInt(exits.length);
         return exits[randomIndex];
     }

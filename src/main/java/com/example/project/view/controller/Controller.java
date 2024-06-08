@@ -1,5 +1,5 @@
 package com.example.project.view.controller;
-
+import javafx.animation.*;
 import com.example.project.model.*;
 import com.example.project.service.TrafficManager;
 import javafx.animation.Animation;
@@ -14,6 +14,7 @@ import javafx.scene.control.Slider;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.Duration;
+
 
 import java.net.URL;
 import java.util.*;
@@ -208,19 +209,20 @@ public class Controller implements Initializable{
         );
         timeline.getKeyFrames().addAll(lights1, lights2, lights3, lights4, lights5);
         timeline.play();
+
         return timeline;
     }
 
     public void moveCars(List<Car> cars) {
         for(Car car : cars) {
-            System.out.println(car.getX() + " " + car.getY() + car.ge);
+            System.out.println(car.getX() + " " + car.getY() + car.getX());
             TranslateTransition transition = new TranslateTransition();
             transition.setNode(car.getImageView());
             transition.setDuration(Duration.millis(1000));
             transition.setToX(100);
             transition.setToY(100);
 
-
+            /*
             RotateTransition transitionRotate = new RotateTransition();
             transitionRotate.setDuration(Duration.millis(100));
 
@@ -233,7 +235,7 @@ public class Controller implements Initializable{
             transitionRotate.byAngleProperty(angle);
 
             transition.play();
-
+            */
         }
 
     }

@@ -19,6 +19,17 @@ public abstract class Transport extends Object /*implements Event */
 
     public String CalculateRoad()
     {
+        if(Objects.equals(vehicle, "Car"))
+        {
+            String track = "ABCDEFGH";
+
+        } else if(Objects.equals(vehicle, "Tram")) {
+
+        } else {
+
+        }
+
+
         return null;
     }
     public Coords Move()
