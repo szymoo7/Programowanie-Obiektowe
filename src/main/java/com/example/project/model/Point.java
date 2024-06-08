@@ -26,4 +26,6 @@ public class Point extends Object
     public void setName(String name) {
         this.name = name;
     }
+
+
 }

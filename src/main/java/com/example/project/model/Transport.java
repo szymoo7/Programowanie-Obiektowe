@@ -1,5 +1,10 @@
 package com.example.project.model;
 
+import com.example.project.service.TrafficManager;
+
+import java.util.ArrayList;
+import java.util.Objects;
+
 public abstract class Transport extends Object /*implements Event */
 {
     public String exit;

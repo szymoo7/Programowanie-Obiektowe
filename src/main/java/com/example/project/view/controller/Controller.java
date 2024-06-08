@@ -7,19 +7,14 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.VBox;
-import javafx.stage.*;
 import javafx.util.Duration;
 
-import java.io.FileInputStream;
 import java.net.URL;
 import java.util.*;
 
@@ -32,8 +27,6 @@ public class Controller implements Initializable{
 
 
     // Zmienne
-    @FXML
-    private ImageView a, b, c, d, e, f, g, h;
     @FXML
     private Label tram_amount, bus_amount, car_amount;
     @FXML
@@ -55,11 +48,17 @@ public class Controller implements Initializable{
         } else {
             System.out.println("START");
             List<Transport> currentObjects = trafficManager.transportCreate(car_count, bus_count, tram_count);
+            List<Car> cars = trafficManager.getCars();
+            List<Tram> trams = trafficManager.getTrams();
+            List<Bus> buses = trafficManager.getBuses();
             List<Point> carEntries = trafficManager.getCarEntries();
             List<Point> carExits = trafficManager.getCarExits();
+            carAnchorChildrenAdd(cars);
             print(currentObjects, currentSignals, carEntries, carExits);
             signalsTimeline = runAnimation(currentSignals);
+            moveCars(cars);
             playing = true;
+
         }
     }
 
@@ -78,7 +77,7 @@ public class Controller implements Initializable{
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         currentSignals = trafficManager.signalsCreate();
-        anchorChildrenAdd(currentSignals);
+        signalAnchorChildrenAdd(currentSignals);
 
         tram_count = (int) slider_tram.getValue();
         bus_count = (int) slider_bus.getValue();
@@ -143,11 +142,18 @@ public class Controller implements Initializable{
 
     }
 
-    public void anchorChildrenAdd(List<Signal> stoplight) {
+    public void signalAnchorChildrenAdd(List<Signal> stoplight) {
         for(Signal i : stoplight) {
             mainAnchorPane.getChildren().add(i.getImageView());
         }
     }
+
+    public void carAnchorChildrenAdd(List<Car> cars) {
+        for(Car i : cars) {
+            mainAnchorPane.getChildren().add(i.getImageView());
+        }
+    }
+
 
     public void changeLights(Set<Signal> signals) {
         for(Signal i : signals) {
@@ -201,9 +207,35 @@ public class Controller implements Initializable{
                 }
         );
         timeline.getKeyFrames().addAll(lights1, lights2, lights3, lights4, lights5);
-        //timeline.getKeyFrames().addAll(lights1, lights2);
         timeline.play();
         return timeline;
+    }
+
+    public void moveCars(List<Car> cars) {
+        for(Car car : cars) {
+            System.out.println(car.getX() + " " + car.getY() + car.ge);
+            TranslateTransition transition = new TranslateTransition();
+            transition.setNode(car.getImageView());
+            transition.setDuration(Duration.millis(1000));
+            transition.setToX(100);
+            transition.setToY(100);
+
+
+            RotateTransition transitionRotate = new RotateTransition();
+            transitionRotate.setDuration(Duration.millis(100));
+
+            float angle = (float) Math.toDegrees(Math.atan2(car.getX() - 100, car.getY() - 100));
+
+            if(angle < 0){
+                angle += 360;
+            }
+
+            transitionRotate.byAngleProperty(angle);
+
+            transition.play();
+
+        }
+
     }
 
 
