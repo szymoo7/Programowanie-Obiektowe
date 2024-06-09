@@ -296,5 +296,20 @@ public class TrafficManager {
         }
     }
 
+    public void carLoopCreate() {
+        int[] coordsx = {682, 657, 618, 499, 276, 253, 343, 473, 581, 629};
+        int[] coordsy = {298, 247, 163, 172, 281, 370, 468, 430, 356, 287};
+        String[] names = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"};
+        for(int i = 0; i < 10; i++) {
+            Point point = new Point(coordsx[i], coordsy[i], id, "Point", names[i]);
+            if(i < 9) {
+                point.setConnections(names[i+1]);
+            } else {
+                point.setConnections(names[1]);
+            }
+
+            carLoop.add(point);
+        }
+    }
 
 }

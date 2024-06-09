@@ -271,9 +271,10 @@ public class Controller implements Initializable{
             transition.setDuration(Duration.millis(1000));
             transition.setToX(100);
             transition.setToY(100);
+            transition.play();*/
 
-            /*
-            RotateTransition transitionRotate = new RotateTransition();
+
+            /*RotateTransition transitionRotate = new RotateTransition();
             transitionRotate.setDuration(Duration.millis(100));
 
             float angle = (float) Math.toDegrees(Math.atan2(car.getX() - 100, car.getY() - 100));
@@ -283,16 +284,10 @@ public class Controller implements Initializable{
             }
 
             transitionRotate.byAngleProperty(angle);
-
-            transition.play();
             */
         }
         return timelines;
 
     }
-
-
-
-
 
 }
