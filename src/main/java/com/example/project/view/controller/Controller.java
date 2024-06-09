@@ -235,25 +235,23 @@ public class Controller implements Initializable{
                 KeyFrame move = new KeyFrame(
                         Duration.seconds(frame*2),
                         event -> {
-
+                            //car.setImageViewXY(point.getX(), point.getY());
                             TranslateTransition translateTransition = new TranslateTransition();
                             translateTransition.setNode(car.getImageView());
                             translateTransition.setDuration(Duration.seconds(2));
-
-                            translateTransition.setFromX(car.x);
-                            translateTransition.setFromY(car.y);
 
 
                             System.out.println("X: " + car.x + " -> " + point.getX());
                             System.out.println("Y: " + car.y + " -> " + point.getY());
                             System.out.println("Keyframe:" + finalFrame1);
 
-                            translateTransition.setByX(point.getX()-car.x);
-                            translateTransition.setByY(point.getY()-car.y);
-
+                            float moveX = point.getX()-car.x;
+                            float moveY = point.getY()-car.y;
+                            translateTransition.setToX(moveX);
+                            translateTransition.setToY(moveY);
 
                             translateTransition.play();
-                            car.setImageViewXY(point.getX(), point.getY());
+
 
                         }
                 );
