@@ -13,11 +13,14 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.shape.Polyline;
 import javafx.util.Duration;
 
 
 import java.net.URL;
 import java.util.*;
+
+import static java.lang.Thread.sleep;
 
 public class Controller implements Initializable{
 
@@ -42,7 +45,7 @@ public class Controller implements Initializable{
     boolean playing = false;
     List<Point> carLoop =new ArrayList<>();
 
-    public void start(){
+    public void start() throws InterruptedException {
         if (playing) {
             System.out.println("PLAYING");
             stop();
@@ -58,7 +61,7 @@ public class Controller implements Initializable{
             carAnchorChildrenAdd(cars);
             print(currentObjects, currentSignals, carEntries, carExits);
             signalsTimeline = runAnimation(currentSignals);
-            moveCars(cars);
+            List<Timeline> timelines = moveCars(cars, carEntries, carLoop, carExits);
             playing = true;
 
         }
@@ -216,10 +219,54 @@ public class Controller implements Initializable{
         return timeline;
     }
 
-    public void moveCars(List<Car> cars) {
+    public List<Timeline> moveCars(List<Car> cars, List<Point> entries, List<Point> carloop, List<Point> exits) throws InterruptedException {
+        List<Timeline> timelines = new ArrayList<>();
         for(Car car : cars) {
-            System.out.println(car.getX() + " " + car.getY() + car.getX());
-            TranslateTransition transition = new TranslateTransition();
+            /*System.out.println("------------------------------------------");
+            System.out.println("Car Enter and Exit:" + car.enter + car.exit);
+            System.out.println(car.getX() + " " + car.getY() + car.getX());*/
+            List<Point> road = (car.CalculateRoad(entries, carloop, exits));
+            Timeline timeline = new Timeline();
+            timeline.setCycleCount(1);
+            int frame=0;
+            for(Point point : road) {
+                int finalFrame = frame;
+                int finalFrame1 = frame;
+                KeyFrame move = new KeyFrame(
+                        Duration.seconds(frame*2),
+                        event -> {
+
+                            TranslateTransition translateTransition = new TranslateTransition();
+                            translateTransition.setNode(car.getImageView());
+                            translateTransition.setDuration(Duration.seconds(2));
+
+                            translateTransition.setFromX(car.x);
+                            translateTransition.setFromY(car.y);
+
+
+                            System.out.println("X: " + car.x + " -> " + point.getX());
+                            System.out.println("Y: " + car.y + " -> " + point.getY());
+                            System.out.println("Keyframe:" + finalFrame1);
+
+                            translateTransition.setByX(point.getX()-car.x);
+                            translateTransition.setByY(point.getY()-car.y);
+
+
+                            translateTransition.play();
+                            car.setImageViewXY(point.getX(), point.getY());
+
+                        }
+                );
+                timeline.getKeyFrames().addAll(move);
+                frame++;
+
+            }
+            timeline.play();
+            timelines.add(timeline);
+
+
+
+            /*TranslateTransition transition = new TranslateTransition();
             transition.setNode(car.getImageView());
             transition.setDuration(Duration.millis(1000));
             transition.setToX(100);
@@ -240,6 +287,7 @@ public class Controller implements Initializable{
             transition.play();
             */
         }
+        return timelines;
 
     }
 

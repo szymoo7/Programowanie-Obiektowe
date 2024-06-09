@@ -153,7 +153,7 @@ public class TrafficManager {
             String enter = randomEnter();
             float x = findCarEntriesX(enter);
             float y = findCarEntriesY(enter);
-            Car car= new Car(x, y, id, "Transport", randomExit(), randomEnter(), "Car", 50, 200, 5, 50, 5, randomColor());
+            Car car= new Car(x, y, id, "Transport", randomExit(), randomEnter(), "Car", 50, 200, 5, 50, 5, randomColor(), Transport.findPointByName(carEntries, randomEnter()));
             vehicles.add(car);
             cars.add(car);
             id++;
@@ -162,13 +162,13 @@ public class TrafficManager {
             String enter = randomEnter();
             float x = findBusEntriesX(enter);
             float y = findBusEntriesY(enter);
-            Bus bus= new Bus(x, y, id, "Transport", randomExit(), randomEnter(), "Bus", 50, 200, 5, 50, 5, randomColor());
+            Bus bus= new Bus(x, y, id, "Transport", randomExit(), randomEnter(), "Bus", 50, 200, 5, 50, 5, randomColor(), Transport.findPointByName(carEntries, randomEnter()));
             vehicles.add(bus);
             buses.add(bus);
             id++;
         }
         for(int i = 0; i < amountTram; i++) {
-            Tram tram= new Tram(0, 0, id, "Transport", randomExit(), randomEnter(), "Tram", 50, 200, 5, 50, 5, randomColor());
+            Tram tram= new Tram(0, 0, id, "Transport", randomExit(), randomEnter(), "Tram", 50, 200, 5, 50, 5, randomColor(), Transport.findPointByName(carEntries, randomEnter()));
             vehicles.add(tram);
             trams.add(tram);
             id++;
@@ -274,7 +274,7 @@ public class TrafficManager {
         String[] connections = {"0", "2", "3", "6", "6"};
         for(int i = 0; i < 10; i++) {
             Point point = new Point(coordsx[i], coordsy[i], id, "Point", names[i]);
-            if (i < 6) {
+            if (i < 5) {
                 point.setConnections(connections[i]);
             }
             carEntries.add(point);
@@ -285,10 +285,10 @@ public class TrafficManager {
         int[] coordsx = {504, 703, 608, 239, 189, 663, 822, 572, 36, 33};
         int[] coordsy = {446, 286, 138, 281, 384, 549, 205, 57, 184, 471};
         String[] names = {"a", "b", "c", "d", "e", "a'", "b'", "c'", "d'", "e'"};
-        String[] connections = {"7", "0", "2", "4", "4"};
+        String[] connections = {"7", "8", "2", "4", "4"};
         for(int i = 0; i < 10; i++) {
             Point point = new Point(coordsx[i], coordsy[i], id, "Point", names[i]);
-            if (i < 6) {
+            if (i < 5) {
                 point.setConnections(connections[i]);
             }
 
