@@ -1,6 +1,7 @@
 package com.example.project.service;
 
 import com.example.project.model.*;
+import javafx.scene.Group;
 
 import java.util.*;
 
@@ -21,6 +22,8 @@ public class TrafficManager {
     private List<Car> cars = new ArrayList<>();
     private List<Tram> trams = new ArrayList<>();
     private List<Bus> buses = new ArrayList<>();
+
+    private Group carGroup = new Group();
 
     private List<Signal> signals = new ArrayList<>();
     private List<Point> carLoop = new ArrayList<>();
@@ -156,6 +159,7 @@ public class TrafficManager {
             Car car= new Car(x, y, id, "Transport", randomExit(), randomEnter(), "Car", 50, 200, 5, 50, 5, randomColor(), Transport.findPointByName(carEntries, randomEnter()));
             vehicles.add(car);
             cars.add(car);
+            carGroup.getChildren().add(car);
             id++;
         }
         for(int i = 0; i < amountBus; i++) {
@@ -178,7 +182,7 @@ public class TrafficManager {
 
     public float findCarEntriesX(String enter) {
         for(Point point : carEntries) {
-            if(point.getName() == enter) {
+            if(point.getName().equals(enter)) {
                 return point.getX();
             }
         }
@@ -187,7 +191,7 @@ public class TrafficManager {
 
     public float findCarEntriesY(String enter) {
         for(Point point : carEntries) {
-            if(point.getName() == enter) {
+            if(point.getName().equals(enter)) {
                 return point.getY();
             }
         }

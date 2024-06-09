@@ -9,11 +9,15 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Polyline;
+import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 
 
@@ -43,7 +47,9 @@ public class Controller implements Initializable{
     List<Signal> currentSignals = new ArrayList<>();
     Timeline signalsTimeline;
     boolean playing = false;
-    List<Point> carLoop =new ArrayList<>();
+    List<Point> carLoop = new ArrayList<>();
+    List<Timeline> carTimelines = new ArrayList<>();
+    List<Car> currentCars = new ArrayList<>();
 
     public void start() throws InterruptedException {
         if (playing) {
@@ -53,15 +59,49 @@ public class Controller implements Initializable{
         } else {
             System.out.println("START");
             List<Transport> currentObjects = trafficManager.transportCreate(car_count, bus_count, tram_count);
-            List<Car> cars = trafficManager.getCars();
+            currentCars = trafficManager.getCars();
+            Group cars = new Group();
             List<Tram> trams = trafficManager.getTrams();
             List<Bus> buses = trafficManager.getBuses();
             List<Point> carEntries = trafficManager.getCarEntries();
             List<Point> carExits = trafficManager.getCarExits();
-            carAnchorChildrenAdd(cars);
+            carAnchorChildrenAdd(currentCars);
+            Rectangle rect1 = new Rectangle(6, 556, 898, 55);
+            rect1.setArcHeight(5.0);
+            rect1.setArcWidth(5.0);
+            rect1.setFill(Color.web("#2d2d2a"));
+            rect1.setStroke(Color.BLACK);
+            rect1.setStrokeWidth(0.0);
+
+            Rectangle rect2 = new Rectangle(825, 15, 66, 581);
+            rect2.setArcHeight(5.0);
+            rect2.setArcWidth(5.0);
+            rect2.setFill(Color.web("#2d2d2a"));
+            rect2.setStroke(Color.TRANSPARENT);
+            rect2.setStrokeWidth(0.0);
+
+            Rectangle rect3 = new Rectangle(11, 1, 898, 55);
+            rect3.setArcHeight(5.0);
+            rect3.setArcWidth(5.0);
+            rect3.setFill(Color.web("#2d2d2a"));
+            rect3.setStroke(Color.BLACK);
+            rect3.setStrokeWidth(0.0);
+
+            Rectangle rect4 = new Rectangle(3, 15, 28, 613);
+            rect4.setArcHeight(5.0);
+            rect4.setArcWidth(5.0);
+            rect4.setFill(Color.web("#2d2d2a"));
+            rect4.setStroke(Color.BLACK);
+            rect4.setStrokeWidth(0.0);
+
+            mainAnchorPane.getChildren().addAll(rect1, rect2, rect3, rect4);
             print(currentObjects, currentSignals, carEntries, carExits);
             signalsTimeline = runAnimation(currentSignals);
-            List<Timeline> timelines = moveCars(cars, carEntries, carLoop, carExits);
+            carTimelines = moveCars(currentCars, carEntries, carLoop, carExits);
+            for(Timeline timeline : carTimelines) {
+                timeline.play();
+            }
+
             playing = true;
 
         }
@@ -76,6 +116,9 @@ public class Controller implements Initializable{
         resetLight(trafficManager.getLightOptionThree());
         resetLight(trafficManager.getLightOptionFour());
         resetLight(trafficManager.getLightOptionFive());
+        for(Car car : currentCars) {
+            car.getImageView().setVisible(false);
+        }
     }
 
     // Funkcje GUI
@@ -226,63 +269,22 @@ public class Controller implements Initializable{
             System.out.println("Car Enter and Exit:" + car.enter + car.exit);
             System.out.println(car.getX() + " " + car.getY() + car.getX());*/
             List<Point> road = car.CalculateRoad(entries, carloop, exits);
+            Polyline track = new Polyline();
+
             Timeline timeline = new Timeline();
             timeline.setCycleCount(1);
-            int frame=0;
+            car.setImageViewXY(road.get(0).getX(), road.get(0).getY());
             for(Point point : road) {
-                int finalFrame = frame;
-                int finalFrame1 = frame;
-                KeyFrame move = new KeyFrame(
-                        Duration.seconds(2*frame),
-                        event -> {
-
-
-                            TranslateTransition translateTransition = new TranslateTransition();
-                            translateTransition.setNode(car.getImageView());
-                            translateTransition.setDuration(Duration.seconds(2));
-
-
-                            System.out.println("X: " + car.x + " -> " + point.getX());
-                            System.out.println("Y: " + car.y + " -> " + point.getY());
-                            System.out.println("Keyframe:" + finalFrame1);
-
-                            float moveX = point.getX()-car.x;
-                            float moveY = point.getY()-car.y;
-                            translateTransition.setToX(moveX);
-                            translateTransition.setToY(moveY);
-
-                            translateTransition.play();
-
-                        }
-                );
-                timeline.getKeyFrames().addAll(move);
-                frame++;
-
+                track.getPoints().add((double) point.getX());
+                track.getPoints().add((double) point.getY());
             }
-            timeline.play();
-            timelines.add(timeline);
+            PathTransition pathTransition = new PathTransition();
+            pathTransition.setPath(track);
+            pathTransition.setOrientation(PathTransition.OrientationType.ORTHOGONAL_TO_TANGENT);
+            pathTransition.setNode(car.getImageView());
+            pathTransition.setDuration(Duration.seconds(2));
+            pathTransition.play();
 
-
-
-            /*TranslateTransition transition = new TranslateTransition();
-            transition.setNode(car.getImageView());
-            transition.setDuration(Duration.millis(1000));
-            transition.setToX(100);
-            transition.setToY(100);
-            transition.play();*/
-
-
-            /*RotateTransition transitionRotate = new RotateTransition();
-            transitionRotate.setDuration(Duration.millis(100));
-
-            float angle = (float) Math.toDegrees(Math.atan2(car.getX() - 100, car.getY() - 100));
-
-            if(angle < 0){
-                angle += 360;
-            }
-
-            transitionRotate.byAngleProperty(angle);
-            */
         }
         return timelines;
 

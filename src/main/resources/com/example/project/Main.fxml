@@ -6,6 +6,7 @@
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.paint.*?>
+<?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
 <AnchorPane fx:id="mainAnchorPane" style="-fx-background-color: #2D2D2A;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.project.view.controller.Controller">
@@ -18,7 +19,10 @@
             <Point3D />
          </rotationAxis>
       </ImageView>
-      <Slider fx:id="slider_car" blockIncrement="1.0" layoutX="946.0" layoutY="175.0" majorTickUnit="1.0" max="10.0" minorTickCount="0" prefHeight="30.0" prefWidth="200.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="1.0" />
+      <Slider fx:id="slider_car" blockIncrement="500.0" layoutX="946.0" layoutY="175.0" majorTickUnit="1249.0" max="2500.0" min="1.0" minorTickCount="1000" prefHeight="30.0" prefWidth="200.0" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="1.0">
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets></Slider>
       <Button layoutX="234.0" layoutY="622.0" mnemonicParsing="false" onAction="#start" prefHeight="30.0" prefWidth="200.0" text="Start" textAlignment="CENTER">
          <font>
             <Font name="Dubai Light" size="12.0" />
@@ -51,5 +55,9 @@
       <Label fx:id="tram_amount" layoutX="1084.0" layoutY="278.0" prefHeight="18.0" prefWidth="58.0" textFill="WHITE" />
       <Label fx:id="car_amount" layoutX="1084.0" layoutY="140.0" prefHeight="18.0" prefWidth="58.0" textFill="WHITE" />
       <Label fx:id="bus_amount" layoutX="1084.0" layoutY="422.0" prefHeight="18.0" prefWidth="58.0" textFill="WHITE" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#2d2d2a" height="55.0" layoutX="6.0" layoutY="556.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="898.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#2d2d2a" height="581.0" layoutX="825.0" layoutY="15.0" stroke="TRANSPARENT" strokeType="INSIDE" strokeWidth="0.0" width="66.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#2d2d2a" height="55.0" layoutX="11.0" layoutY="1.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="898.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#2d2d2a" height="613.0" layoutX="3.0" layoutY="15.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="28.0" />
    </children>
 </AnchorPane>

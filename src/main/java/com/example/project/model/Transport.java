@@ -18,6 +18,7 @@ public abstract class Transport extends Object /*implements Event */
     public float vehicleGap;
     public String color;
     private Point onPoint;
+    public String roadString = "";
 
     public List<Point> CalculateRoad(List<Point> entries, List<Point> carloop, List<Point> exits)
     {
@@ -42,6 +43,7 @@ public abstract class Transport extends Object /*implements Event */
             road.add(findPointByName(exits, (exit + "'")));
             for(Point i : road) {
                 System.out.println(i.getName());
+                roadString = roadString + i.getName();
             }
             return road;
 
@@ -64,24 +66,23 @@ public abstract class Transport extends Object /*implements Event */
         return null;
     }
 
-    /*
-    public Point Move(Point c, List<Point> carloop, List<Point> exits)
+
+    /*public Point Move(Point current, List<Point> carloop, List<Point> exits)
     {
         if(Objects.equals(vehicle, "Car"))
         {
             Point current = findPointByName(current, enter);
-            String end = findPointByName(exits, exit).getConnections();
-            road.add(findPointByName(entries, (current.getName() + "'")));
-            while(!Objects.equals(current.getName(), end)) {
+            while(!current.getName().equals(end)) {
                 road.add(current);
                 onPoint = current;
-                current = findPointByName(carloop, current.getConnections());
+                if(findPointByName(entries, current.getConnections()) != null) {
+                    current = findPointByName(entries, current.getConnections());
+                } else if(findPointByName(carloop, current.getConnections()) != null) {
+                    current = findPointByName(carloop, current.getConnections());
+                } else {
+                    current = findPointByName(exits, current.getConnections());
+                }
             }
-            road.add(current);
-            road.add(findPointByName(exits, exit));
-            System.out.println("Last name: "  + (exit + "'"));
-            road.add(findPointByName(exits, (exit + "'")));
-            return road;
 
         }
         return null;
