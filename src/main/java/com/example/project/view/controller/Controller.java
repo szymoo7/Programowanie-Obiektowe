@@ -137,7 +137,7 @@ public class Controller implements Initializable{
         System.out.println("BREAK");
         for(Signal i : listSignals){
             System.out.println(i.x + " " + i.y + " "  + i.id + " " + i.type);
-        } /*
+        }
         System.out.println("Car Entries:");
         for(Point i : listCarEntries){
             System.out.println(i.x + " " + i.y + " "  + i.getName() + " " + i.getConnections());
@@ -145,8 +145,8 @@ public class Controller implements Initializable{
         System.out.println("Car Exits:");
         for(Point i : listCarExits){
             System.out.println(i.x + " " + i.y + " "  + i.getName() + " " + i.getConnections());
-        }*/
-
+        }
+        System.out.println("------------------------------------------");
     }
 
     public void signalAnchorChildrenAdd(List<Signal> stoplight) {
@@ -225,7 +225,7 @@ public class Controller implements Initializable{
             /*System.out.println("------------------------------------------");
             System.out.println("Car Enter and Exit:" + car.enter + car.exit);
             System.out.println(car.getX() + " " + car.getY() + car.getX());*/
-            List<Point> road = (car.CalculateRoad(entries, carloop, exits));
+            List<Point> road = car.CalculateRoad(entries, carloop, exits);
             Timeline timeline = new Timeline();
             timeline.setCycleCount(1);
             int frame=0;
@@ -233,9 +233,10 @@ public class Controller implements Initializable{
                 int finalFrame = frame;
                 int finalFrame1 = frame;
                 KeyFrame move = new KeyFrame(
-                        Duration.seconds(frame*2),
+                        Duration.seconds(2*frame),
                         event -> {
-                            //car.setImageViewXY(point.getX(), point.getY());
+
+
                             TranslateTransition translateTransition = new TranslateTransition();
                             translateTransition.setNode(car.getImageView());
                             translateTransition.setDuration(Duration.seconds(2));
@@ -251,7 +252,6 @@ public class Controller implements Initializable{
                             translateTransition.setToY(moveY);
 
                             translateTransition.play();
-
 
                         }
                 );

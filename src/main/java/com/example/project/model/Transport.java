@@ -2,6 +2,7 @@ package com.example.project.model;
 
 import javax.lang.model.type.NullType;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -20,24 +21,31 @@ public abstract class Transport extends Object /*implements Event */
 
     public List<Point> CalculateRoad(List<Point> entries, List<Point> carloop, List<Point> exits)
     {
-        if(Objects.equals(vehicle, "Car"))
+        if(vehicle.equals("Car"))
         {
             List<Point> road = new ArrayList<>();
             Point current = findPointByName(entries, enter);
             String end = findPointByName(exits, exit).getConnections();
-            road.add(findPointByName(entries, (current.getName() + "'")));
-            while(!Objects.equals(current.getName(), end)) {
+            while(!current.getName().equals(end)) {
                 road.add(current);
                 onPoint = current;
-                current = findPointByName(carloop, current.getConnections());
+                if(findPointByName(entries, current.getConnections()) != null) {
+                    current = findPointByName(entries, current.getConnections());
+                } else if(findPointByName(carloop, current.getConnections()) != null) {
+                    current = findPointByName(carloop, current.getConnections());
+                } else {
+                    current = findPointByName(exits, current.getConnections());
+                }
             }
             road.add(current);
             road.add(findPointByName(exits, exit));
-            System.out.println("Last name: "  + (exit + "'"));
             road.add(findPointByName(exits, (exit + "'")));
+            for(Point i : road) {
+                System.out.println(i.getName());
+            }
             return road;
 
-        } else if(Objects.equals(vehicle, "Tram")) {
+        } else if(vehicle.equals("Tram")) {
 
         } else {
 
@@ -49,7 +57,7 @@ public abstract class Transport extends Object /*implements Event */
 
     public static Point findPointByName(List<Point> points, String name) {
         for(Point point : points) {
-            if(Objects.equals(point.getName(), name)) {
+            if(point.getName().equals(name)) {
                 return point;
             }
         }
@@ -96,5 +104,13 @@ public abstract class Transport extends Object /*implements Event */
     public Signal nextStoplight(List<Signal> signal) {
 
         return null;
+    }
+
+    public Point getOnPoint() {
+        return onPoint;
+    }
+
+    public void setOnPoint(Point onPoint) {
+        this.onPoint = onPoint;
     }
 }

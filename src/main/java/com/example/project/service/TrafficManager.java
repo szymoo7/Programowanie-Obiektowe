@@ -243,7 +243,7 @@ public class TrafficManager {
     }
 
     public String randomEnter() {
-        String[] entries = new String[]{"A", "B", "C", "D", "E"};
+        String[] entries = new String[]{"A'", "B'", "C'", "D'", "E'"};
         int randomIndex = random.nextInt(entries.length);
         return entries[randomIndex];
     }
@@ -271,12 +271,11 @@ public class TrafficManager {
         int[] coordsx = {695, 648, 502, 189, 302, 811, 815, 504, 43, 43};
         int[] coordsy = {325, 159, 145, 340, 482, 540, 118, 63, 236, 543};
         String[] names = {"A", "B", "C", "D", "E", "A'", "B'", "C'", "D'", "E'"};
-        String[] connections = {"0", "2", "3", "6", "6"};
+        String[] connections = {"0", "2", "3", "6", "6", "A", "B", "C", "D", "E"};
         for(int i = 0; i < 10; i++) {
             Point point = new Point(coordsx[i], coordsy[i], id, "Point", names[i]);
-            if (i < 5) {
-                point.setConnections(connections[i]);
-            }
+            point.setConnections(connections[i]);
+
             carEntries.add(point);
         }
     }
