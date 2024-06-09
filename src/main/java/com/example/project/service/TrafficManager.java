@@ -23,6 +23,7 @@ public class TrafficManager {
     private List<Bus> buses = new ArrayList<>();
 
     private List<Signal> signals = new ArrayList<>();
+    private List<Point> carLoop = new ArrayList<>();
 
     private Set<Signal> lightOptionOne = new HashSet<Signal>();
 
@@ -33,6 +34,14 @@ public class TrafficManager {
     private Set<Signal> lightOptionFour = new HashSet<Signal>();
 
     private Set<Signal> lightOptionFive = new HashSet<Signal>();
+
+    public List<Point> getCarLoop() {
+        return carLoop;
+    }
+
+    public void setCarLoop(List<Point> carLoop) {
+        this.carLoop = carLoop;
+    }
 
     public List<Car> getCars() {
         return cars;
@@ -276,16 +285,13 @@ public class TrafficManager {
         int[] coordsx = {504, 703, 608, 239, 189, 663, 822, 572, 36, 33};
         int[] coordsy = {446, 286, 138, 281, 384, 549, 205, 57, 184, 471};
         String[] names = {"a", "b", "c", "d", "e", "a'", "b'", "c'", "d'", "e'"};
+        String[] connections = {"7", "0", "2", "4", "4"};
         for(int i = 0; i < 10; i++) {
             Point point = new Point(coordsx[i], coordsy[i], id, "Point", names[i]);
-            if (i == 0) {
-                point.setConnections(names[i + 1]);
-            }else if (i == 9) {
-                point.setConnections(names[i - 1]);
+            if (i < 6) {
+                point.setConnections(connections[i]);
             }
-            else {
-                point.setConnections(names[i - 1] + names[i + 1]);
-            }
+
             carExits.add(point);
         }
     }

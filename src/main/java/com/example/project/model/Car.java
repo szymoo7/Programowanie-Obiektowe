@@ -38,8 +38,6 @@ public class Car extends Transport
     public void centeringXY() {
         float width = (float) imageView.getFitWidth();
         float height = (float) imageView.getFitHeight();
-        System.out.println("Szerokość: " + width + " px");
-        System.out.println("Wysokość: " + height + " px");
         this.x = this.x - width / 2;
         this.y = this.y - height / 2;
     }

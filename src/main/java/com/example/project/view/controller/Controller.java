@@ -40,6 +40,7 @@ public class Controller implements Initializable{
     List<Signal> currentSignals = new ArrayList<>();
     Timeline signalsTimeline;
     boolean playing = false;
+    List<Point> carLoop =new ArrayList<>();
 
     public void start(){
         if (playing) {
@@ -78,6 +79,8 @@ public class Controller implements Initializable{
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         currentSignals = trafficManager.signalsCreate();
+        trafficManager.carLoopCreate();
+        carLoop = trafficManager.getCarLoop();
         signalAnchorChildrenAdd(currentSignals);
 
         tram_count = (int) slider_tram.getValue();
