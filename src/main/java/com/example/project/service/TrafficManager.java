@@ -159,7 +159,6 @@ public class TrafficManager {
             Car car= new Car(x, y, id, "Transport", randomExit(), randomEnter(), "Car", 50, 200, 5, 50, 5, randomColor(), Transport.findPointByName(carEntries, randomEnter()));
             vehicles.add(car);
             cars.add(car);
-            carGroup.getChildren().add(car);
             id++;
         }
         for(int i = 0; i < amountBus; i++) {
@@ -313,6 +312,20 @@ public class TrafficManager {
 
             carLoop.add(point);
         }
+    }
+
+    public static float calculateDistance(List<Point> points) {
+        float distance = 0;
+        for(int i = 0; i < Arrays.asList(points).toArray().length - 2;i++) {
+
+            float x = points.get(i).getX();
+            float y = points.get(i).getY();
+            float nextx = points.get(i+1).getX();
+            float nexty = points.get(i+1).getY();
+            distance += Math.sqrt((x*x)-(nextx*nextx)+(y*y)-(nexty*nexty)
+            );
+        }
+        return distance;
     }
 
 }

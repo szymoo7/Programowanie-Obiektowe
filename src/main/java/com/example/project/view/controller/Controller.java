@@ -5,6 +5,7 @@ import com.example.project.service.TrafficManager;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
@@ -60,7 +61,6 @@ public class Controller implements Initializable{
             System.out.println("START");
             List<Transport> currentObjects = trafficManager.transportCreate(car_count, bus_count, tram_count);
             currentCars = trafficManager.getCars();
-            Group cars = new Group();
             List<Tram> trams = trafficManager.getTrams();
             List<Bus> buses = trafficManager.getBuses();
             List<Point> carEntries = trafficManager.getCarEntries();
@@ -109,16 +109,38 @@ public class Controller implements Initializable{
 
     public void stop(){
         System.out.println("STOP");
-        signalsTimeline.stop();
         playing = false;
+
+        if (signalsTimeline != null) {
+            signalsTimeline.stop();
+        }
+
+        for (Timeline timeline : carTimelines) {
+            if (timeline != null) {
+                timeline.stop();
+            }
+        }
+        carTimelines.clear();
+
+        for (Car car : currentCars) {
+            if (car != null && car.getImageView() != null) {
+                mainAnchorPane.getChildren().remove(car.getImageView());
+            }
+        }
+        currentCars.clear();
+
+
         resetLight(trafficManager.getLightOptionOne());
         resetLight(trafficManager.getLightOptionTwo());
         resetLight(trafficManager.getLightOptionThree());
         resetLight(trafficManager.getLightOptionFour());
         resetLight(trafficManager.getLightOptionFive());
+
+        /*
         for(Car car : currentCars) {
             car.getImageView().setVisible(false);
         }
+         */
     }
 
     // Funkcje GUI
@@ -264,11 +286,21 @@ public class Controller implements Initializable{
 
     public List<Timeline> moveCars(List<Car> cars, List<Point> entries, List<Point> carloop, List<Point> exits) throws InterruptedException {
         List<Timeline> timelines = new ArrayList<>();
+        int carNum=1;
+        int sleepTime = 1000 / Arrays.asList(cars).toArray().length;
         for(Car car : cars) {
             /*System.out.println("------------------------------------------");
             System.out.println("Car Enter and Exit:" + car.enter + car.exit);
             System.out.println(car.getX() + " " + car.getY() + car.getX());*/
-            List<Point> road = car.CalculateRoad(entries, carloop, exits);
+
+            //Application
+            ThreadMoveCars move = new ThreadMoveCars(cars, entries, carloop, exits, car, carNum, mainAnchorPane, sleepTime);
+            move.setThreadFinishCallback(this::test);
+            Thread moveThread = new Thread(move);
+
+            moveThread.start();
+            carNum++;
+            /*List<Point> road = car.CalculateRoad(entries, carloop, exits);
             Polyline track = new Polyline();
 
             Timeline timeline = new Timeline();
@@ -285,9 +317,16 @@ public class Controller implements Initializable{
             pathTransition.setDuration(Duration.seconds(2));
             pathTransition.play();
 
+
+             */
+
+
         }
         return timelines;
 
     }
 
+    public void test(Long a) {
+        System.out.println(a);
+    }
 }

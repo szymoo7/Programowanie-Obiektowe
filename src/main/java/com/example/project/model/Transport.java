@@ -114,4 +114,17 @@ public abstract class Transport extends Object /*implements Event */
     public void setOnPoint(Point onPoint) {
         this.onPoint = onPoint;
     }
+
+    static public float calculateDistance(List<Point> points) {
+        float distance = 0;
+        for (int i = 0; i < points.size() - 1; i++) {
+            float x1 = (float) points.get(i).getX();
+            float y1 = (float) points.get(i).getY();
+            float x2 = (float) points.get(i + 1).getX();
+            float y2 = (float) points.get(i + 1).getY();
+
+            distance += Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+        }
+        return distance;
+    }
 }
