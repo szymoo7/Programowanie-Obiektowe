@@ -2,6 +2,7 @@ package com.example.project.model;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.shape.Rectangle;
 
 public class Signal extends Object
 {
@@ -9,6 +10,7 @@ public class Signal extends Object
     //color == false (red)
     private String direction;
     private boolean color;
+    private Rectangle check = new Rectangle();
     private ImageView imageView = new ImageView(new Image(getClass().getResourceAsStream("/Pictures/stoplight-green.png")));
 
     public Signal(float x, float y, int id, String type) {

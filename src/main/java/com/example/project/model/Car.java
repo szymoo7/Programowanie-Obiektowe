@@ -54,4 +54,8 @@ public class Car extends Transport
         this.x = this.x - width / 2;
         this.y = this.y - height / 2;
     }
+
+//    public Signal nextLights() {
+//
+//    }
 }

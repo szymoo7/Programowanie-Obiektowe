@@ -23,6 +23,7 @@ import javafx.util.Duration;
 
 
 import java.net.URL;
+import java.nio.channels.InterruptedByTimeoutException;
 import java.util.*;
 
 import static java.lang.Thread.sleep;
@@ -46,6 +47,7 @@ public class Controller implements Initializable{
 
     int tram_count, bus_count, car_count;
     List<Signal> currentSignals = new ArrayList<>();
+    Set<Signal> signalsGreen = new HashSet<>();
     Timeline signalsTimeline;
     boolean playing = false;
     List<Point> carLoop = new ArrayList<>();
@@ -94,6 +96,7 @@ public class Controller implements Initializable{
             rect4.setStroke(Color.BLACK);
             rect4.setStrokeWidth(0.0);
 
+
             mainAnchorPane.getChildren().addAll(rect1, rect2, rect3, rect4);
             print(currentObjects, currentSignals, carEntries, carExits);
             signalsTimeline = runAnimation(currentSignals);
@@ -136,11 +139,6 @@ public class Controller implements Initializable{
         resetLight(trafficManager.getLightOptionFour());
         resetLight(trafficManager.getLightOptionFive());
 
-        /*
-        for(Car car : currentCars) {
-            car.getImageView().setVisible(false);
-        }
-         */
     }
 
     // Funkcje GUI
@@ -247,6 +245,7 @@ public class Controller implements Initializable{
                 event -> {
                     resetLight(trafficManager.getLightOptionFive());
                     changeLights(trafficManager.getLightOptionOne());
+                    signalsGreen = trafficManager.getLightOptionOne();
                 }
         );
         KeyFrame lights2 = new KeyFrame(
@@ -254,6 +253,7 @@ public class Controller implements Initializable{
                 event -> {
                     resetLight(trafficManager.getLightOptionOne());
                     changeLights(trafficManager.getLightOptionTwo());
+                    signalsGreen = trafficManager.getLightOptionTwo();
                 }
         );
         KeyFrame lights3 = new KeyFrame(
@@ -261,6 +261,7 @@ public class Controller implements Initializable{
                 event -> {
                     resetLight(trafficManager.getLightOptionTwo());
                     changeLights(trafficManager.getLightOptionThree());
+                    signalsGreen = trafficManager.getLightOptionThree();
                 }
         );
         KeyFrame lights4 = new KeyFrame(
@@ -268,6 +269,7 @@ public class Controller implements Initializable{
                 event -> {
                     resetLight(trafficManager.getLightOptionThree());
                     changeLights(trafficManager.getLightOptionFour());
+                    signalsGreen = trafficManager.getLightOptionFour();
                 }
         );
         KeyFrame lights5 = new KeyFrame(
@@ -275,6 +277,7 @@ public class Controller implements Initializable{
                 event -> {
                     resetLight(trafficManager.getLightOptionFour());
                     changeLights(trafficManager.getLightOptionFive());
+                    signalsGreen = trafficManager.getLightOptionFive();
                     System.out.println("TURA");
                 }
         );
@@ -294,11 +297,13 @@ public class Controller implements Initializable{
             System.out.println(car.getX() + " " + car.getY() + car.getX());*/
 
             //Application
-            ThreadMoveCars move = new ThreadMoveCars(cars, entries, carloop, exits, car, carNum, mainAnchorPane, sleepTime);
+            ThreadMoveCars move = new ThreadMoveCars(cars, entries, carloop, exits, car, carNum, mainAnchorPane, sleepTime, signalsGreen.stream().toList());
             move.setThreadFinishCallback(this::test);
             Thread moveThread = new Thread(move);
-
+            move.setThread(moveThread);
             moveThread.start();
+
+
             carNum++;
             /*List<Point> road = car.CalculateRoad(entries, carloop, exits);
             Polyline track = new Polyline();
@@ -329,4 +334,64 @@ public class Controller implements Initializable{
     public void test(Long a) {
         System.out.println(a);
     }
+
+    /*public void lightsMatch() {
+        Rectangle E = new Rectangle(40.0, 40.0, Color.DODGERBLUE);
+        E.setArcHeight(5.0);
+        E.setArcWidth(5.0);
+        E.setStroke(Color.BLACK);
+        E.setLayoutX(164.0);
+        E.setLayoutY(307.0);
+
+        Rectangle F = new Rectangle(40.0, 40.0, Color.DODGERBLUE);
+        F.setArcHeight(5.0);
+        F.setArcWidth(5.0);
+        F.setStroke(Color.BLACK);
+        F.setLayoutX(262.0);
+        F.setLayoutY(466.0);
+
+        Rectangle G = new Rectangle(40.0, 40.0, Color.DODGERBLUE);
+        G.setArcHeight(5.0);
+        G.setArcWidth(5.0);
+        G.setStroke(Color.BLACK);
+        G.setLayoutX(529.0);
+        G.setLayoutY(446.0);
+
+        Rectangle H = new Rectangle(40.0, 40.0, Color.DODGERBLUE);
+        H.setArcHeight(5.0);
+        H.setArcWidth(5.0);
+        H.setStroke(Color.BLACK);
+        H.setLayoutX(537.0);
+        H.setLayoutY(357.0);
+
+        Rectangle A = new Rectangle(40.0, 40.0, Color.DODGERBLUE);
+        A.setArcHeight(5.0);
+        A.setArcWidth(5.0);
+        A.setStroke(Color.BLACK);
+        A.setLayoutX(680.0);
+        A.setLayoutY(322.0);
+
+        Rectangle B = new Rectangle(40.0, 40.0, Color.DODGERBLUE);
+        B.setArcHeight(5.0);
+        B.setArcWidth(5.0);
+        B.setStroke(Color.BLACK);
+        B.setLayoutX(649.0);
+        B.setLayoutY(138.0);
+
+        Rectangle C = new Rectangle(40.0, 40.0, Color.DODGERBLUE);
+        C.setArcHeight(5.0);
+        C.setArcWidth(5.0);
+        C.setStroke(Color.BLACK);
+        C.setLayoutX(480.0);
+        C.setLayoutY(118.0);
+
+        Rectangle D = new Rectangle(40.0, 40.0, Color.DODGERBLUE);
+        D.setArcHeight(5.0);
+        D.setArcWidth(5.0);
+        D.setStroke(Color.BLACK);
+        D.setLayoutX(282.0);
+        D.setLayoutY(238.0);
+        }
+
+    }*/
 }

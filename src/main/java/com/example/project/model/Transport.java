@@ -67,27 +67,6 @@ public abstract class Transport extends Object /*implements Event */
     }
 
 
-    /*public Point Move(Point current, List<Point> carloop, List<Point> exits)
-    {
-        if(Objects.equals(vehicle, "Car"))
-        {
-            Point current = findPointByName(current, enter);
-            while(!current.getName().equals(end)) {
-                road.add(current);
-                onPoint = current;
-                if(findPointByName(entries, current.getConnections()) != null) {
-                    current = findPointByName(entries, current.getConnections());
-                } else if(findPointByName(carloop, current.getConnections()) != null) {
-                    current = findPointByName(carloop, current.getConnections());
-                } else {
-                    current = findPointByName(exits, current.getConnections());
-                }
-            }
-
-        }
-        return null;
-    }*/
-
     public Transport(float x, float y, int id, String type, String exit, String enter, String vehicle, int vmax, float reactionTime, float acceleration, float speed, float vehicleGap, String color, Point onPoint) {
         super(x, y, id, type);
         this.exit = exit;
