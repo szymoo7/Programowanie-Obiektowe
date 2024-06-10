@@ -55,7 +55,4 @@ public class Car extends Transport
         this.y = this.y - height / 2;
     }
 
-//    public Signal nextLights() {
-//
-//    }
 }

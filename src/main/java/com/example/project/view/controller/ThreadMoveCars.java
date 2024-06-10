@@ -54,7 +54,7 @@ public class ThreadMoveCars extends Controller implements Runnable
 
 
         try {
-            Thread.sleep(sleepTime*carNum);
+            Thread.sleep((sleepTime*carNum)/2);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
@@ -79,8 +79,8 @@ public class ThreadMoveCars extends Controller implements Runnable
         pathTransition.setNode(car.getImageView());
         pathTransition.setDuration(Duration.millis(distance*10));
 
-        int[] rectX = {680,649,480,282,164,262,529,537};
-        int[] rectY = {322, 138, 118, 238, 307, 466, 446, 357};
+        int[] rectX = {680,649,480,282,154,262,529,537};
+        int[] rectY = {322, 138, 118, 238, 297, 466, 446, 357};
 
         car.getImageView().translateXProperty().addListener((obs, oldX, newX) -> {
             Bounds boundsInScene = car.getImageView().localToScene(car.getImageView().getBoundsInLocal());
@@ -121,11 +121,11 @@ public class ThreadMoveCars extends Controller implements Runnable
 
 
         pathTransition.setOnFinished((e) -> {
-            cars.remove(car);
             anchorPane.getChildren().remove(car.getImageView());
-            System.out.println("Time " + distance*2);
+            System.out.println("Time " + distance*10);
             Instant endTime = Instant.now();
             long threadLifetime = java.time.Duration.between(startTime, endTime).toMillis();
+            System.out.println(threadLifetime);
             threadFinishCallback.accept(threadLifetime);
         });
 
@@ -144,7 +144,7 @@ public class ThreadMoveCars extends Controller implements Runnable
     private void pauseAnimation() {
         if (pathTransition.getStatus() == PathTransition.Status.RUNNING) {
             pathTransition.pause();
-            PauseTransition pauseTransition = new PauseTransition(Duration.seconds(1)); // Red light duration
+            PauseTransition pauseTransition = new PauseTransition(Duration.seconds(2)); // Red light duration
             pauseTransition.setOnFinished(event -> {
                 isRedLightDetected = false;
                 pathTransition.play();

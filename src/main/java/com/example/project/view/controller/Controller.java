@@ -16,6 +16,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 
@@ -107,6 +109,8 @@ public class Controller implements Initializable{
     public void stop(){
         System.out.println("STOP");
         playing = false;
+
+        createCSVFileWithTimes();
 
         if (signalsTimeline != null) {
             signalsTimeline.stop();
@@ -286,11 +290,7 @@ public class Controller implements Initializable{
         int carNum=1;
         int sleepTime = 1000 / Arrays.asList(cars).toArray().length;
         for(Car car : cars) {
-            /*System.out.println("------------------------------------------");
-            System.out.println("Car Enter and Exit:" + car.enter + car.exit);
-            System.out.println(car.getX() + " " + car.getY() + car.getX());*/
 
-            //Application
             ThreadMoveCars move = new ThreadMoveCars(cars, entries, carloop, exits, car, carNum, mainAnchorPane, sleepTime, currentSignals);
             move.setThreadFinishCallback(this::test);
             Thread moveThread = new Thread(move);
@@ -299,26 +299,6 @@ public class Controller implements Initializable{
 
 
             carNum++;
-            /*List<Point> road = car.CalculateRoad(entries, carloop, exits);
-            Polyline track = new Polyline();
-
-            Timeline timeline = new Timeline();
-            timeline.setCycleCount(1);
-            car.setImageViewXY(road.get(0).getX(), road.get(0).getY());
-            for(Point point : road) {
-                track.getPoints().add((double) point.getX());
-                track.getPoints().add((double) point.getY());
-            }
-            PathTransition pathTransition = new PathTransition();
-            pathTransition.setPath(track);
-            pathTransition.setOrientation(PathTransition.OrientationType.ORTHOGONAL_TO_TANGENT);
-            pathTransition.setNode(car.getImageView());
-            pathTransition.setDuration(Duration.seconds(2));
-            pathTransition.play();
-
-
-             */
-
 
         }
         return timelines;
@@ -329,65 +309,20 @@ public class Controller implements Initializable{
         times.add(a);
     }
 
-    /*public void lightsMatch() {
-        Rectangle E = new Rectangle(40.0, 40.0, Color.DODGERBLUE);
-        E.setArcHeight(5.0);
-        E.setArcWidth(5.0);
-        E.setStroke(Color.BLACK);
-        E.setLayoutX(164.0);
-        E.setLayoutY(307.0);
 
-        Rectangle F = new Rectangle(40.0, 40.0, Color.DODGERBLUE);
-        F.setArcHeight(5.0);
-        F.setArcWidth(5.0);
-        F.setStroke(Color.BLACK);
-        F.setLayoutX(262.0);
-        F.setLayoutY(466.0);
-
-        Rectangle G = new Rectangle(40.0, 40.0, Color.DODGERBLUE);
-        G.setArcHeight(5.0);
-        G.setArcWidth(5.0);
-        G.setStroke(Color.BLACK);
-        G.setLayoutX(529.0);
-        G.setLayoutY(446.0);
-
-        Rectangle H = new Rectangle(40.0, 40.0, Color.DODGERBLUE);
-        H.setArcHeight(5.0);
-        H.setArcWidth(5.0);
-        H.setStroke(Color.BLACK);
-        H.setLayoutX(537.0);
-        H.setLayoutY(357.0);
-
-        Rectangle A = new Rectangle(40.0, 40.0, Color.DODGERBLUE);
-        A.setArcHeight(5.0);
-        A.setArcWidth(5.0);
-        A.setStroke(Color.BLACK);
-        A.setLayoutX(680.0);
-        A.setLayoutY(322.0);
-
-        Rectangle B = new Rectangle(40.0, 40.0, Color.DODGERBLUE);
-        B.setArcHeight(5.0);
-        B.setArcWidth(5.0);
-        B.setStroke(Color.BLACK);
-        B.setLayoutX(649.0);
-        B.setLayoutY(138.0);
-
-        Rectangle C = new Rectangle(40.0, 40.0, Color.DODGERBLUE);
-        C.setArcHeight(5.0);
-        C.setArcWidth(5.0);
-        C.setStroke(Color.BLACK);
-        C.setLayoutX(480.0);
-        C.setLayoutY(118.0);
-
-        Rectangle D = new Rectangle(40.0, 40.0, Color.DODGERBLUE);
-        D.setArcHeight(5.0);
-        D.setArcWidth(5.0);
-        D.setStroke(Color.BLACK);
-        D.setLayoutX(282.0);
-        D.setLayoutY(238.0);
+    public void createCSVFileWithTimes() {
+        String fileName = "times.csv";
+        try (FileWriter writer = new FileWriter(fileName)) {
+            writer.append("Time;car_entry;car_exit\n");
+            for(int i =0; i < times.toArray().length - 1; i++)  {
+                String text = times.get(i).toString();
+                text += ";" + currentCars.get(i).enter + ";" + currentCars.get(i).exit + "\n";
+                writer.append(text);
+            }
+            System.out.println("CSV file created: " + fileName);
+        } catch (IOException e) {
+            System.out.println("Error while writing CSV file: " + e.getMessage());
         }
-
-    }*/
-
+    }
 
 }

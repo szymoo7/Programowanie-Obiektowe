@@ -63,13 +63,5 @@
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#2d2d2a" height="581.0" layoutX="825.0" layoutY="15.0" stroke="TRANSPARENT" strokeType="INSIDE" strokeWidth="0.0" width="66.0" />
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#2d2d2a" height="55.0" layoutX="11.0" layoutY="1.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="898.0" />
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#2d2d2a" height="613.0" layoutX="3.0" layoutY="15.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="28.0" />
-      <Rectangle fx:id="E" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="40.0" layoutX="164.0" layoutY="307.0" stroke="BLACK" strokeType="INSIDE" width="40.0" />
-      <Rectangle fx:id="F" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="40.0" layoutX="262.0" layoutY="466.0" stroke="BLACK" strokeType="INSIDE" width="40.0" />
-      <Rectangle fx:id="G" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="40.0" layoutX="529.0" layoutY="446.0" stroke="BLACK" strokeType="INSIDE" width="40.0" />
-      <Rectangle fx:id="H" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="40.0" layoutX="537.0" layoutY="357.0" stroke="BLACK" strokeType="INSIDE" width="40.0" />
-      <Rectangle fx:id="A" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="40.0" layoutX="680.0" layoutY="322.0" stroke="BLACK" strokeType="INSIDE" width="40.0" />
-      <Rectangle fx:id="B" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="40.0" layoutX="649.0" layoutY="138.0" stroke="BLACK" strokeType="INSIDE" width="40.0" />
-      <Rectangle fx:id="C" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="40.0" layoutX="480.0" layoutY="118.0" stroke="BLACK" strokeType="INSIDE" width="40.0" />
-      <Rectangle fx:id="D" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="40.0" layoutX="282.0" layoutY="238.0" stroke="BLACK" strokeType="INSIDE" width="40.0" />
    </children>
 </AnchorPane>

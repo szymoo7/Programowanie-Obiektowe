@@ -6,8 +6,7 @@ import javafx.scene.shape.Rectangle;
 
 public class Signal extends Object
 {
-    //color == true (green)
-    //color == false (red)
+
     private String direction;
     private boolean color;
     private Rectangle check = new Rectangle();
