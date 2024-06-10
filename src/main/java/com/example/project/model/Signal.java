@@ -57,4 +57,14 @@ public class Signal extends Object
     public void setImageView(ImageView imageView) {
         this.imageView = imageView;
     }
+
+    public boolean isRed() {
+        if(color == true) {
+            return false;
+        }
+        return true;
+    }
 }
+
+
+

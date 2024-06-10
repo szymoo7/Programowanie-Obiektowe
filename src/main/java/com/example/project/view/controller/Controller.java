@@ -1,32 +1,23 @@
 package com.example.project.view.controller;
-import javafx.animation.*;
+
 import com.example.project.model.*;
 import com.example.project.service.TrafficManager;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Group;
-import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Polyline;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 
-
 import java.net.URL;
-import java.nio.channels.InterruptedByTimeoutException;
 import java.util.*;
-
-import static java.lang.Thread.sleep;
 
 public class Controller implements Initializable{
 
@@ -53,11 +44,13 @@ public class Controller implements Initializable{
     List<Point> carLoop = new ArrayList<>();
     List<Timeline> carTimelines = new ArrayList<>();
     List<Car> currentCars = new ArrayList<>();
+    List<Long> times = new ArrayList<>();
 
     public void start() throws InterruptedException {
         if (playing) {
             System.out.println("PLAYING");
             stop();
+            times.clear();
 
         } else {
             System.out.println("START");
@@ -104,6 +97,7 @@ public class Controller implements Initializable{
             for(Timeline timeline : carTimelines) {
                 timeline.play();
             }
+
 
             playing = true;
 
@@ -297,7 +291,7 @@ public class Controller implements Initializable{
             System.out.println(car.getX() + " " + car.getY() + car.getX());*/
 
             //Application
-            ThreadMoveCars move = new ThreadMoveCars(cars, entries, carloop, exits, car, carNum, mainAnchorPane, sleepTime, signalsGreen.stream().toList());
+            ThreadMoveCars move = new ThreadMoveCars(cars, entries, carloop, exits, car, carNum, mainAnchorPane, sleepTime, currentSignals);
             move.setThreadFinishCallback(this::test);
             Thread moveThread = new Thread(move);
             move.setThread(moveThread);
@@ -332,7 +326,7 @@ public class Controller implements Initializable{
     }
 
     public void test(Long a) {
-        System.out.println(a);
+        times.add(a);
     }
 
     /*public void lightsMatch() {
@@ -394,4 +388,6 @@ public class Controller implements Initializable{
         }
 
     }*/
+
+
 }

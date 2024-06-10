@@ -6,6 +6,7 @@ import com.example.project.model.Signal;
 import com.example.project.model.Transport;
 import com.example.project.service.TrafficManager;
 import javafx.animation.PathTransition;
+import javafx.animation.PauseTransition;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.geometry.Bounds;
@@ -29,6 +30,8 @@ public class ThreadMoveCars extends Controller implements Runnable
     private AnchorPane anchorPane;
     private int sleepTime;
     private List<Signal> signals;
+    private PathTransition pathTransition;
+    private boolean isRedLightDetected;
     public void setThread(Thread thread) {
         this.thread = thread;
     }
@@ -68,7 +71,7 @@ public class ThreadMoveCars extends Controller implements Runnable
             track.getPoints().add((double) point.getX());
             track.getPoints().add((double) point.getY());
         }
-        PathTransition pathTransition = new PathTransition();
+        pathTransition = new PathTransition();
         System.out.println("X: " + car.getX());
         System.out.println("Y: " + car.getY());
         pathTransition.setPath(track);
@@ -90,10 +93,20 @@ public class ThreadMoveCars extends Controller implements Runnable
                         car.getX() > rectX[i] &&
                         car.getY() < rectY[i] + 40 &&
                         car.getY() > rectY[i]) {
+                    int finalI = i;
+
                     for(Signal signal : signals) {
-                        signals.
+                        System.out.println(signal.getColor());
                     }
-                    System.out.println("COLLISION DETECTED WITH: "+ (char) (i+65));}
+
+
+                    boolean foundSignal = signals.get(i).getColor();
+                    System.out.println(foundSignal);
+                    if (foundSignal == false) {
+                        pauseAnimation();
+                        System.out.println(foundSignal);
+                    }
+                        System.out.println("COLLISION DETECTED WITH: "+ (char) (i+65));}
 
             }
 
@@ -128,5 +141,18 @@ public class ThreadMoveCars extends Controller implements Runnable
         this.threadFinishCallback = consumer;
     }
 
-}
+    private void pauseAnimation() {
+        if (pathTransition.getStatus() == PathTransition.Status.RUNNING) {
+            pathTransition.pause();
+            PauseTransition pauseTransition = new PauseTransition(Duration.seconds(1)); // Red light duration
+            pauseTransition.setOnFinished(event -> {
+                isRedLightDetected = false;
+                pathTransition.play();
+            });
+            pauseTransition.play();
 
+        }
+    }
+
+
+}
