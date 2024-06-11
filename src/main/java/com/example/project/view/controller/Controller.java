@@ -315,11 +315,14 @@ public class Controller implements Initializable{
         String fileName = "times.csv";
         try (FileWriter writer = new FileWriter(fileName)) {
             writer.append("Time;car_entry;car_exit\n");
-            for(int i =0; i < currentCars.toArray().length; i++)  {
-                String text = times.get(i).toString();
-                text += ";" + currentCars.get(i).enter + ";" + currentCars.get(i).exit + "'" + "\n";
-                writer.append(text);
-            }
+            //if (currentCars.toArray().length <= times.toArray().length) {
+                for(int i =0; i < times.toArray().length; i++)  {
+
+                    String text = times.get(i).toString();
+                    text += ";" + currentCars.get(i).enter + ";" + currentCars.get(i).exit + "'" + "\n";
+                    writer.append(text);
+                }
+            //}
             System.out.println("CSV file created: " + fileName);
         } catch (IOException e) {
             System.out.println("Error while writing CSV file: " + e.getMessage());
