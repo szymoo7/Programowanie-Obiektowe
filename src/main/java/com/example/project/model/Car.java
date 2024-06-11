@@ -11,7 +11,7 @@ public class Car extends Transport
     private ImageView imageView = new ImageView(new Image(getClass().getResourceAsStream("/Pictures/car_blue.png")));
 
     public Car(float x, float y, int id, String type, String exit, String enter, String vehicle, int vmax, float reactionTime, float acceleration, float speed, float vehicleGap, String color, Point onPoint) {
-        super(x, y, id, type, exit, enter, vehicle, vmax, reactionTime, acceleration, speed, vehicleGap, color, onPoint);
+        super(x, y, id, type, exit, enter, vehicle, vmax, reactionTime, acceleration, speed, vehicleGap, color);
         Image image;
         if(color.equals("Red")) {
             image = new Image(getClass().getResourceAsStream("/Pictures/car_red.png"));

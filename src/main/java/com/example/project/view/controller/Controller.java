@@ -50,16 +50,17 @@ public class Controller implements Initializable{
 
     public void start() throws InterruptedException {
         if (playing) {
-            System.out.println("PLAYING");
+            //System.out.println("PLAYING");
             stop();
             times.clear();
 
         } else {
-            System.out.println("START");
+            currentCars.clear();
+            //System.out.println("START");
             List<Transport> currentObjects = trafficManager.transportCreate(car_count, bus_count, tram_count);
             currentCars = trafficManager.getCars();
-            List<Tram> trams = trafficManager.getTrams();
-            List<Bus> buses = trafficManager.getBuses();
+            //List<Tram> trams = trafficManager.getTrams();
+            //List<Bus> buses = trafficManager.getBuses();
             List<Point> carEntries = trafficManager.getCarEntries();
             List<Point> carExits = trafficManager.getCarExits();
             carAnchorChildrenAdd(currentCars);
@@ -93,7 +94,7 @@ public class Controller implements Initializable{
 
 
             mainAnchorPane.getChildren().addAll(rect1, rect2, rect3, rect4);
-            print(currentObjects, currentSignals, carEntries, carExits);
+            //print(currentObjects, currentSignals, carEntries, carExits);
             signalsTimeline = runAnimation(currentSignals);
             carTimelines = moveCars(currentCars, carEntries, carLoop, carExits);
             for(Timeline timeline : carTimelines) {
@@ -107,7 +108,7 @@ public class Controller implements Initializable{
     }
 
     public void stop(){
-        System.out.println("STOP");
+        //System.out.println("STOP");
         playing = false;
 
         createCSVFileWithTimes();
@@ -276,7 +277,7 @@ public class Controller implements Initializable{
                     resetLight(trafficManager.getLightOptionFour());
                     changeLights(trafficManager.getLightOptionFive());
                     signalsGreen = trafficManager.getLightOptionFive();
-                    System.out.println("TURA");
+                    //System.out.println("TURA");
                 }
         );
         timeline.getKeyFrames().addAll(lights1, lights2, lights3, lights4, lights5);
@@ -314,9 +315,9 @@ public class Controller implements Initializable{
         String fileName = "times.csv";
         try (FileWriter writer = new FileWriter(fileName)) {
             writer.append("Time;car_entry;car_exit\n");
-            for(int i =0; i < times.toArray().length - 1; i++)  {
+            for(int i =0; i < currentCars.toArray().length; i++)  {
                 String text = times.get(i).toString();
-                text += ";" + currentCars.get(i).enter + ";" + currentCars.get(i).exit + "\n";
+                text += ";" + currentCars.get(i).enter + ";" + currentCars.get(i).exit + "'" + "\n";
                 writer.append(text);
             }
             System.out.println("CSV file created: " + fileName);

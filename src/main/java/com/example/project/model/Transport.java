@@ -17,7 +17,6 @@ public abstract class Transport extends Object /*implements Event */
     public float speed;
     public float vehicleGap;
     public String color;
-    private Point onPoint;
     public String roadString = "";
 
     public List<Point> CalculateRoad(List<Point> entries, List<Point> carloop, List<Point> exits)
@@ -29,7 +28,6 @@ public abstract class Transport extends Object /*implements Event */
             String end = findPointByName(exits, exit).getConnections();
             while(!current.getName().equals(end)) {
                 road.add(current);
-                onPoint = current;
                 if(findPointByName(entries, current.getConnections()) != null) {
                     current = findPointByName(entries, current.getConnections());
                 } else if(findPointByName(carloop, current.getConnections()) != null) {
@@ -41,10 +39,10 @@ public abstract class Transport extends Object /*implements Event */
             road.add(current);
             road.add(findPointByName(exits, exit));
             road.add(findPointByName(exits, (exit + "'")));
-            for(Point i : road) {
-                System.out.println(i.getName());
-                roadString = roadString + i.getName();
-            }
+//            for(Point i : road) {
+//                System.out.println(i.getName());
+//                roadString = roadString + i.getName();
+//            }
             return road;
 
         } else if(vehicle.equals("Tram")) {
@@ -67,7 +65,7 @@ public abstract class Transport extends Object /*implements Event */
     }
 
 
-    public Transport(float x, float y, int id, String type, String exit, String enter, String vehicle, int vmax, float reactionTime, float acceleration, float speed, float vehicleGap, String color, Point onPoint) {
+    public Transport(float x, float y, int id, String type, String exit, String enter, String vehicle, int vmax, float reactionTime, float acceleration, float speed, float vehicleGap, String color) {
         super(x, y, id, type);
         this.exit = exit;
         this.enter = enter;
@@ -78,21 +76,9 @@ public abstract class Transport extends Object /*implements Event */
         this.speed = speed;
         this.vehicleGap = vehicleGap;
         this.color = color;
-        this.onPoint = onPoint;
     }
 
-    public Signal nextStoplight(List<Signal> signal) {
 
-        return null;
-    }
-
-    public Point getOnPoint() {
-        return onPoint;
-    }
-
-    public void setOnPoint(Point onPoint) {
-        this.onPoint = onPoint;
-    }
 
     static public float calculateDistance(List<Point> points) {
         float distance = 0;

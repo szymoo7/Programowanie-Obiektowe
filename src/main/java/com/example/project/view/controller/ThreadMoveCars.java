@@ -72,8 +72,8 @@ public class ThreadMoveCars extends Controller implements Runnable
             track.getPoints().add((double) point.getY());
         }
         pathTransition = new PathTransition();
-        System.out.println("X: " + car.getX());
-        System.out.println("Y: " + car.getY());
+        //System.out.println("X: " + car.getX());
+        //System.out.println("Y: " + car.getY());
         pathTransition.setPath(track);
         pathTransition.setOrientation(PathTransition.OrientationType.ORTHOGONAL_TO_TANGENT);
         pathTransition.setNode(car.getImageView());
@@ -85,28 +85,28 @@ public class ThreadMoveCars extends Controller implements Runnable
         car.getImageView().translateXProperty().addListener((obs, oldX, newX) -> {
             Bounds boundsInScene = car.getImageView().localToScene(car.getImageView().getBoundsInLocal());
             car.setX((float) boundsInScene.getMinX()+22.5f);
-            System.out.println("X: " + car.getX()+22.5);
+            //System.out.println("X: " + car.getX()+22.5);
 
             for (int i = 0; i < rectX.length; i++) {
-                // Checking if the car's bounding box intersects with the rectangle
                 if (car.getX() < rectX[i] + 40 &&
                         car.getX() > rectX[i] &&
                         car.getY() < rectY[i] + 40 &&
                         car.getY() > rectY[i]) {
                     int finalI = i;
 
-                    for(Signal signal : signals) {
-                        System.out.println(signal.getColor());
-                    }
+//                    for (Signal signal : signals) {
+//                        System.out.println(signal.getColor());
+//                    }
 
 
                     boolean foundSignal = signals.get(i).getColor();
-                    System.out.println(foundSignal);
+                    //System.out.println(foundSignal);
                     if (foundSignal == false) {
                         pauseAnimation();
-                        System.out.println(foundSignal);
+                        //System.out.println(foundSignal);
                     }
-                        System.out.println("COLLISION DETECTED WITH: "+ (char) (i+65));}
+                }
+                    //System.out.println("COLLISION DETECTED WITH: "+ (char) (i+65));}
 
             }
 
@@ -116,24 +116,24 @@ public class ThreadMoveCars extends Controller implements Runnable
             Bounds boundsInScene = car.getImageView().localToScene(car.getImageView().getBoundsInLocal());
             car.setY((float) boundsInScene.getMinY()+25f);
 
-            System.out.println("Y: " + car.getY());
+            //System.out.println("Y: " + car.getY());
         });
 
 
         pathTransition.setOnFinished((e) -> {
             anchorPane.getChildren().remove(car.getImageView());
-            System.out.println("Time " + distance*10);
+            //System.out.println("Time " + distance*10);
             Instant endTime = Instant.now();
             long threadLifetime = java.time.Duration.between(startTime, endTime).toMillis();
-            System.out.println(threadLifetime);
+            //System.out.println(threadLifetime);
             threadFinishCallback.accept(threadLifetime);
         });
 
         pathTransition.onFinishedProperty();
         car.getImageView().setVisible(true);
         Platform.runLater(pathTransition::play);
-        System.out.println("X: " + car.getX());
-        System.out.println("Y: " + car.getY());
+        //System.out.println("X: " + car.getX());
+        //System.out.println("Y: " + car.getY());
 
     }
 

@@ -165,13 +165,13 @@ public class TrafficManager {
             String enter = randomEnter();
             float x = findBusEntriesX(enter);
             float y = findBusEntriesY(enter);
-            Bus bus= new Bus(x, y, id, "Transport", randomExit(), randomEnter(), "Bus", 50, 200, 5, 50, 5, randomColor(), Transport.findPointByName(carEntries, randomEnter()));
+            Bus bus= new Bus(x, y, id, "Transport", randomExit(), randomEnter(), "Bus", 50, 200, 5, 50, 5, randomColor());
             vehicles.add(bus);
             buses.add(bus);
             id++;
         }
         for(int i = 0; i < amountTram; i++) {
-            Tram tram= new Tram(0, 0, id, "Transport", randomExit(), randomEnter(), "Tram", 50, 200, 5, 50, 5, randomColor(), Transport.findPointByName(carEntries, randomEnter()));
+            Tram tram= new Tram(0, 0, id, "Transport", randomExit(), randomEnter(), "Tram", 50, 200, 5, 50, 5, randomColor());
             vehicles.add(tram);
             trams.add(tram);
             id++;
