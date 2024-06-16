@@ -22,16 +22,21 @@ import java.util.function.Consumer;
 public class ThreadMoveCars extends Controller implements Runnable
 {
     private List<Car> cars;
-    private List<Point> entries;
-    private List<Point> carloop;
-    private List<Point> exits;
-    private Car car;
-    private int carNum;
-    private AnchorPane anchorPane;
-    private int sleepTime;
-    private List<Signal> signals;
+    private final List<Point> entries;
+    private final List<Point> carloop;
+    private final List<Point> exits;
+    private final Car car;
+    private final int carNum;
+    private final AnchorPane anchorPane;
+    private final int sleepTime;
+    private final List<Signal> signals;
     private PathTransition pathTransition;
     private boolean isRedLightDetected;
+    /**
+     * Ustawia wątek dla tego obiektu.
+     *
+     * @param thread wątek do ustawienia
+     */
     public void setThread(Thread thread) {
         this.thread = thread;
     }
@@ -39,6 +44,19 @@ public class ThreadMoveCars extends Controller implements Runnable
     private Thread thread;
     private Consumer<Long> threadFinishCallback;
 
+    /**
+     * Konstruktor klasy ThreadMoveCars.
+     *
+     * @param cars lista wszystkich samochodów
+     * @param entries lista punktów wejściowych dla samochodów
+     * @param carloop lista punktów tworzących pętlę ruchu samochodów
+     * @param exits lista punktów wyjściowych dla samochodów
+     * @param car pojedynczy samochód, którym będzie zarządzał ten wątek
+     * @param carNum numer samochodu
+     * @param mainpane główny panel aplikacji
+     * @param sleepTime czas w milisekundach, który wątek ma czekać przed rozpoczęciem ruchu
+     * @param signals lista sygnałów świetlnych
+     */
     public ThreadMoveCars(List<Car> cars, List<Point> entries, List<Point> carloop, List<Point> exits, Car car, int carNum, AnchorPane mainpane, int sleepTime, List<Signal> signals) {
         this.entries = entries;
         this.carloop = carloop;
@@ -49,12 +67,15 @@ public class ThreadMoveCars extends Controller implements Runnable
         this.sleepTime = sleepTime;
         this.signals = signals;
     }
+    /**
+     * Metoda uruchamiana w wątku, odpowiedzialna za animację ruchu samochodu.
+     */
     @Override
     public void run(){
 
 
         try {
-            Thread.sleep((sleepTime*carNum)/2);
+            Thread.sleep(((long) sleepTime *carNum)/2);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
@@ -101,7 +122,7 @@ public class ThreadMoveCars extends Controller implements Runnable
 
                     boolean foundSignal = signals.get(i).getColor();
                     //System.out.println(foundSignal);
-                    if (foundSignal == false) {
+                    if (!foundSignal) {
                         pauseAnimation();
                         //System.out.println(foundSignal);
                     }
@@ -137,10 +158,19 @@ public class ThreadMoveCars extends Controller implements Runnable
 
     }
 
+
+    /**
+     *
+     * @param consumer obiekt typu {@link Consumer<Long>}, który zostanie ustawiony jako callback.
+     * //     *                 Callback przyjmuje jako argument czas zakończenia wątku w formie wartości typu Long (czas w milisekundach).
+     */
     public void setThreadFinishCallback(Consumer<Long> consumer) {
         this.threadFinishCallback = consumer;
     }
 
+    /**
+     * Zatrzymuje animację samochodu na określony czas, symulując czerwone światło.
+     */
     private void pauseAnimation() {
         if (pathTransition.getStatus() == PathTransition.Status.RUNNING) {
             pathTransition.pause();

@@ -9,9 +9,15 @@ public class Signal extends Object
 
     private String direction;
     private boolean color;
-    private Rectangle check = new Rectangle();
     private ImageView imageView = new ImageView(new Image(getClass().getResourceAsStream("/Pictures/stoplight-green.png")));
-
+    /**
+     * Konstruktor klasy Signal.
+     *
+     * @param x    pozycja x sygnalizatora
+     * @param y    pozycja y sygnalizatora
+     * @param id   identyfikator sygnalizatora
+     * @param type typ sygnalizatora
+     */
     public Signal(float x, float y, int id, String type) {
         super(x, y, id, type);
     }
@@ -20,19 +26,19 @@ public class Signal extends Object
     {
         setColor(!color);
     }
-
-    public String getDirection() {
-        return direction;
-    }
-
-    public void setDirection(String direction) {
-        this.direction = direction;
-    }
-
+    /**
+     * Zwraca aktualny kolor sygnalizatora.
+     *
+     * @return true, jeśli sygnalizator jest zielony, false, jeśli jest czerwony
+     */
     public boolean getColor() {
         return color;
     }
-
+    /**
+     * Ustawia kolor sygnalizatora.
+     *
+     * @param color true, aby ustawić kolor na zielony, false, aby ustawić kolor na czerwony
+     */
     public void setColor(boolean color) {
         this.color = color;
         Image image;
@@ -57,12 +63,6 @@ public class Signal extends Object
         this.imageView = imageView;
     }
 
-    public boolean isRed() {
-        if(color == true) {
-            return false;
-        }
-        return true;
-    }
 }
 
 

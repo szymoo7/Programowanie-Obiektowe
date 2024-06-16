@@ -1,10 +1,7 @@
 package com.example.project.model;
 
-import javax.lang.model.type.NullType;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 
 public abstract class Transport extends Object /*implements Event */
 {
@@ -17,7 +14,6 @@ public abstract class Transport extends Object /*implements Event */
     public float speed;
     public float vehicleGap;
     public String color;
-    public String roadString = "";
 
     public List<Point> CalculateRoad(List<Point> entries, List<Point> carloop, List<Point> exits)
     {
@@ -39,10 +35,7 @@ public abstract class Transport extends Object /*implements Event */
             road.add(current);
             road.add(findPointByName(exits, exit));
             road.add(findPointByName(exits, (exit + "'")));
-//            for(Point i : road) {
-//                System.out.println(i.getName());
-//                roadString = roadString + i.getName();
-//            }
+
             return road;
 
         } else if(vehicle.equals("Tram")) {
@@ -79,14 +72,20 @@ public abstract class Transport extends Object /*implements Event */
     }
 
 
-
+    /**
+     * Oblicza całkowitą odległość pomiędzy kolejnymi punktami na liście.
+     * Odległość jest obliczana przy użyciu wzoru na odległość euklidesową.
+     *
+     * @param points lista obiektów typu Point reprezentujących sekwencję punktów
+     * @return całkowita odległość pomiędzy kolejnymi punktami na liście
+     */
     static public float calculateDistance(List<Point> points) {
         float distance = 0;
         for (int i = 0; i < points.size() - 1; i++) {
-            float x1 = (float) points.get(i).getX();
-            float y1 = (float) points.get(i).getY();
-            float x2 = (float) points.get(i + 1).getX();
-            float y2 = (float) points.get(i + 1).getY();
+            float x1 = points.get(i).getX();
+            float y1 = points.get(i).getY();
+            float x2 = points.get(i + 1).getX();
+            float y2 = points.get(i + 1).getY();
 
             distance += Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
         }

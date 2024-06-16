@@ -24,7 +24,6 @@ import java.util.*;
 public class Controller implements Initializable{
 
     // Obiekty/Klasy pomocnicze
-    private final Random random = new Random();
 
     private final TrafficManager trafficManager = new TrafficManager();
 
@@ -48,15 +47,18 @@ public class Controller implements Initializable{
     List<Car> currentCars = new ArrayList<>();
     List<Long> times = new ArrayList<>();
 
+    /**
+     * Rozpoczyna symulację ruchu, tworząc i inicjując pojazdy.
+     *
+     * @throws InterruptedException jeśli wątek zostanie przerwany
+     */
     public void start() throws InterruptedException {
         if (playing) {
-            //System.out.println("PLAYING");
             stop();
             times.clear();
 
         } else {
             currentCars.clear();
-            //System.out.println("START");
             List<Transport> currentObjects = trafficManager.transportCreate(car_count, bus_count, tram_count);
             currentCars = trafficManager.getCars();
             //List<Tram> trams = trafficManager.getTrams();
@@ -94,7 +96,6 @@ public class Controller implements Initializable{
 
 
             mainAnchorPane.getChildren().addAll(rect1, rect2, rect3, rect4);
-            //print(currentObjects, currentSignals, carEntries, carExits);
             signalsTimeline = runAnimation(currentSignals);
             carTimelines = moveCars(currentCars, carEntries, carLoop, carExits);
             for(Timeline timeline : carTimelines) {
@@ -107,8 +108,10 @@ public class Controller implements Initializable{
         }
     }
 
+    /**
+     * Zatrzymuje symulację ruchu.
+     */
     public void stop(){
-        //System.out.println("STOP");
         playing = false;
 
         createCSVFileWithTimes();
@@ -141,6 +144,9 @@ public class Controller implements Initializable{
     }
 
     // Funkcje GUI
+    /**
+     * Inicjalizuje kontroler. Wywoływane automatycznie po załadowaniu FXML.
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         currentSignals = trafficManager.signalsCreate();
@@ -187,29 +193,25 @@ public class Controller implements Initializable{
     }
 
     // Logika
-    public void print(List<Transport> listTransport, List<Signal> listSignals, List<Point> listCarEntries, List<Point> listCarExits) {
-        /*System.out.println("Transport:");
-        for(Transport i : listTransport){
-            System.out.println(i.id + " " + i.type + " " + i.enter + " " + i.exit + " " + i.vehicle);
-        }*/
-        System.out.println("Signals:");
-        for(Signal i : trafficManager.getLightOptionOne()){
-            System.out.println(i.x + " " + i.y + " "  + i.id + " " + i.type);
-        }
-        System.out.println("BREAK");
-        for(Signal i : listSignals){
-            System.out.println(i.x + " " + i.y + " "  + i.id + " " + i.type);
-        }
-        System.out.println("Car Entries:");
-        for(Point i : listCarEntries){
-            System.out.println(i.x + " " + i.y + " "  + i.getName() + " " + i.getConnections());
-        }
-        System.out.println("Car Exits:");
-        for(Point i : listCarExits){
-            System.out.println(i.x + " " + i.y + " "  + i.getName() + " " + i.getConnections());
-        }
-        System.out.println("------------------------------------------");
-    }
+//    public void print(List<Transport> listTransport, List<Signal> listSignals, List<Point> listCarEntries, List<Point> listCarExits) {
+//        System.out.println("Signals:");
+//        for(Signal i : trafficManager.getLightOptionOne()){
+//            System.out.println(i.x + " " + i.y + " "  + i.id + " " + i.type);
+//        }
+//        System.out.println("BREAK");
+//        for(Signal i : listSignals){
+//            System.out.println(i.x + " " + i.y + " "  + i.id + " " + i.type);
+//        }
+//        System.out.println("Car Entries:");
+//        for(Point i : listCarEntries){
+//            System.out.println(i.x + " " + i.y + " "  + i.getName() + " " + i.getConnections());
+//        }
+//        System.out.println("Car Exits:");
+//        for(Point i : listCarExits){
+//            System.out.println(i.x + " " + i.y + " "  + i.getName() + " " + i.getConnections());
+//        }
+//        System.out.println("------------------------------------------");
+//    }
 
     public void signalAnchorChildrenAdd(List<Signal> stoplight) {
         for(Signal i : stoplight) {
@@ -285,11 +287,21 @@ public class Controller implements Initializable{
 
         return timeline;
     }
+    /**
+     * Porusza samochodami po określonej trasie.
+     *
+     * @param cars lista samochodów do poruszania
+     * @param entries lista punktów wejściowych dla samochodów
+     * @param carloop lista punktów tworzących pętlę ruchu samochodów
+     * @param exits lista punktów wyjściowych dla samochodów
+     * @return lista obiektów Timeline reprezentujących ruch samochodów
+     * @throws InterruptedException jeśli wątek zostanie przerwany
+     */
 
     public List<Timeline> moveCars(List<Car> cars, List<Point> entries, List<Point> carloop, List<Point> exits) throws InterruptedException {
         List<Timeline> timelines = new ArrayList<>();
         int carNum=1;
-        int sleepTime = 1000 / Arrays.asList(cars).toArray().length;
+        int sleepTime = 1000 / Collections.singletonList(cars).toArray().length;
         for(Car car : cars) {
 
             ThreadMoveCars move = new ThreadMoveCars(cars, entries, carloop, exits, car, carNum, mainAnchorPane, sleepTime, currentSignals);
@@ -305,12 +317,18 @@ public class Controller implements Initializable{
         return timelines;
 
     }
-
+    /**
+     * Testowy callback używany do zbierania czasów zakończenia wątków.
+     *
+     * @param a czas zakończenia wątku w milisekundach
+     */
     public void test(Long a) {
         times.add(a);
     }
 
-
+    /**
+     * Tworzy plik CSV zawierający czasy przejazdu samochodów.
+     */
     public void createCSVFileWithTimes() {
         String fileName = "times.csv";
         try (FileWriter writer = new FileWriter(fileName)) {
